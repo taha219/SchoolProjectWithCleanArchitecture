@@ -13,11 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Feature\Student\Commands\Handelrs\" />
-    <Folder Include="Feature\Student\Commands\Models\" />
-    <Folder Include="Feature\Student\Commands\Validators\" />
-    <Folder Include="Feature\Student\Queries\Models\" />
-    <Folder Include="Mapping\" />
+    <Folder Include="Feature\Students\Commands\Handelrs\" />
+    <Folder Include="Feature\Students\Commands\Models\" />
+    <Folder Include="Feature\Students\Commands\Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
   </ItemGroup>
 
 </Project>

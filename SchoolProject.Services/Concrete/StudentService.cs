@@ -16,7 +16,7 @@ namespace SchoolProject.Services.Concrete
         {
             _studentReposatory = studentReposatory;
         }
-        public async Task<List<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudentsAsync()
         {
            return await _studentReposatory.GetAllStudents();
         }

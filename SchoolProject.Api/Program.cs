@@ -4,7 +4,7 @@ using SchoolProject.Infrastructure.Concrete;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Infrastructure;
 using SchoolProject.Services;
-
+using SchoolProject.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configur
 #region Dependency Injection
 
 builder.Services.AddInfrastructureDependencies()
-                .AddServicesDependencies();
-
+                .AddServicesDependencies()
+                .AddCoreDependencies();
 #endregion
 
 
