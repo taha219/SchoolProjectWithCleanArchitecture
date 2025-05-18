@@ -9,10 +9,13 @@ using SchoolProject.Core.Feature.Students.Queries.Results;
 
 namespace SchoolProject.Core.Feature.Students.Queries.Models
 {
-    public class GetStudentListQuery : IRequest<ApiResponse<List<GetStudentListResponse>>>
+    public class GetStudentByIdQuery : IRequest<ApiResponse<GetSingleStudentResponse>>
     {
+        public int Id { get; set; }
 
+        public GetStudentByIdQuery(int id)
+        {
+            Id = id;
+        }
     }
-
-    
 }

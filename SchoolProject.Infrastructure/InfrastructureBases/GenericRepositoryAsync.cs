@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
 using SchoolProject.Infrastructure.Data;
 
 namespace SchoolProject.Infrastructure.InfrastructureBases
@@ -37,11 +31,9 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
 
             return await _dbContext.Set<T>().FindAsync(id);
         }
-
-
         public IQueryable<T> GetTableNoTracking()
         {
-            return _dbContext.Set<T>().AsNoTracking().AsQueryable();
+            return _dbContext.Set<T>().AsNoTracking();
         }
 
 
@@ -75,7 +67,7 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
         {
             foreach (var entity in entities)
             {
-                _dbContext.Entry(entity).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Deleted;
+                _dbContext.Entry(entity).State = EntityState.Deleted;
             }
             await _dbContext.SaveChangesAsync();
         }
@@ -85,12 +77,8 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
             await _dbContext.SaveChangesAsync();
         }
 
-
-
         public IDbContextTransaction BeginTransaction()
         {
-
-
             return _dbContext.Database.BeginTransaction();
         }
 
@@ -109,7 +97,6 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
         public IQueryable<T> GetTableAsTracking()
         {
             return _dbContext.Set<T>().AsQueryable();
-
         }
 
         public virtual async Task UpdateRangeAsync(ICollection<T> entities)

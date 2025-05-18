@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
 using SchoolProject.Infrastructure.Abstract;
 using SchoolProject.Infrastructure.Data;
@@ -27,8 +22,9 @@ namespace SchoolProject.Infrastructure.Concrete
         #region Methods
         public async Task<List<Student>> GetAllStudents()
         {
-            return await _students.Include(x=>x.Department).ToListAsync();   
+            return await _students.Include(x => x.Department).ToListAsync();
         }
+
         #endregion
 
 
