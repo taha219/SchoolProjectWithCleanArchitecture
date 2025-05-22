@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using SchoolProject.Infrastructure.Data;
 
@@ -26,22 +27,23 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
         #endregion
 
         #region Actions
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate)
         {
-
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate);
         }
         public IQueryable<T> GetTableNoTracking()
         {
             return _dbContext.Set<T>().AsNoTracking();
         }
 
-
+        public virtual async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
         public virtual async Task AddRangeAsync(ICollection<T> entities)
         {
             await _dbContext.Set<T>().AddRangeAsync(entities);
             await _dbContext.SaveChangesAsync();
-
         }
         public virtual async Task<T> AddAsync(T entity)
         {

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace SchoolProject.Infrastructure.InfrastructureBases
 {
     public interface IGenericRepositoryAsync<T> where T : class
     {
         Task DeleteRangeAsync(ICollection<T> entities);
+        Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(int id);
         Task SaveChangesAsync();
         IDbContextTransaction BeginTransaction();

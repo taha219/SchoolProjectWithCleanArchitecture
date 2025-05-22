@@ -2,6 +2,7 @@
 using SchoolProject.Infrastructure.Abstract;
 using SchoolProject.Infrastructure.Concrete;
 using SchoolProject.Infrastructure.InfrastructureBases;
+using SchoolProject.Infrastructure.Reposatories;
 
 namespace SchoolProject.Infrastructure
 {
@@ -10,6 +11,7 @@ namespace SchoolProject.Infrastructure
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
         {
             services.AddTransient<IStudentReposatory, StudentReposatory>();
+            services.AddTransient<IDepartmentReposatory, DepartmentReposatory>();
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             return services;
         }

@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SchoolProject.Core.Bases;
+﻿using SchoolProject.Core.Bases;
 using SchoolProject.Data.Entities;
 
 namespace SchoolProject.Services.Abstract
 {
     public interface IStudentService
     {
-        Task<List<Student>> GetAllStudentsAsync();
-        Task<Student> GetStudentByIdAsync(int id);
-        Task<ApiResponse<string>> AddStudentAsync(Student student);
+        public Task<List<Student>> GetAllStudentsAsync();
+        public Task<Student> GetStudentById_WithoutDepartmentDetails_Async(int id);
+        public Task<Student> GetStudentByIdAsync(int id);
+        public Task<ApiResponse<string>> AddStudentAsync(Student student);
+        public Task<ApiResponse<string>> EditStudentAsync(Student student);
+        public Task<ApiResponse<string>> EditStudentDepartmentAsync(Student student);
+        public Task<string> DeleteStudentAsync(Student student);
+
+        public IQueryable<Student> GetStudentsListQuerable();
+
 
 
     }

@@ -13,7 +13,6 @@ public class ErrorHandlerMiddleware
     {
         _next = next;
     }
-
     public async Task Invoke(HttpContext context)
     {
         try
@@ -40,7 +39,7 @@ public class ErrorHandlerMiddleware
                     responseModel.Message = "Validation failed";
 
                     var validationErrors = validationEx.Errors?
-                        .Select(e => $"{e.PropertyName}: {e.ErrorMessage}")
+                        .Select(e => $"{e.ErrorMessage}")
                         .ToList();
 
                     if (validationErrors != null && validationErrors.Any())

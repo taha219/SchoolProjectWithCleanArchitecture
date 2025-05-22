@@ -9,6 +9,8 @@ namespace SchoolProject.Core.Mapping.StudentMapping
             GetStudentListMapping();
             GetStudentByIdMapping();
             AddStudentMapping();
+            EditStudentMapping();
+            EditStudentDepartmentMapping();
         }
     }
 }

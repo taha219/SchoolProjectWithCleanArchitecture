@@ -6,6 +6,7 @@ namespace SchoolProject.Data.Entities
     public class Student
     {
         [Key]
+        [Column("StudentId")]
         public int StudentId { get; set; }
 
         [StringLength(200)]

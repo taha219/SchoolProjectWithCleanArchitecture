@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using AutoMapper;
 using MediatR;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.Students.Queries.Models;
 using SchoolProject.Core.Feature.Students.Queries.Results;
+using SchoolProject.Core.Features.Students.Queries.Models;
+using SchoolProject.Core.Wrappers;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Student.Queries.Handlers
 {
-    public class StudentQueryHandler : IRequestHandler<GetStudentListQuery, ApiResponse<List<GetStudentListResponse>>>,
-        IRequestHandler<GetStudentByIdQuery, ApiResponse<GetSingleStudentResponse>>
+    public class StudentQueryHandler :
+                                       IRequestHandler<GetStudentListQuery, ApiResponse<List<GetStudentListResponse>>>,
+                                       IRequestHandler<GetStudentByIdQuery, ApiResponse<GetSingleStudentResponse>>,
+                                       IRequestHandler<GetStudentPaginatedListQuery, PaginatedResult<GetStudentPaginatedListResponse>>
+
     {
 
         private readonly IStudentService _studentService;
@@ -28,6 +29,14 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
         public async Task<ApiResponse<List<GetStudentListResponse>>> Handle(GetStudentListQuery request, CancellationToken cancellationToken)
         {
             var result = await _studentService.GetAllStudentsAsync();
+            if (result == null)
+            {
+                return new ApiResponse<List<GetStudentListResponse>>
+                {
+                    IsSuccess = false,
+                    Message = "No Students"
+                };
+            }
             var mappedStudents = _mapper.Map<List<GetStudentListResponse>>(result);
 
             return new ApiResponse<List<GetStudentListResponse>>
@@ -59,6 +68,14 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
                 IsSuccess = true,
                 Message = "Student retrieved successfully"
             };
+        }
+
+        public async Task<PaginatedResult<GetStudentPaginatedListResponse>> Handle(GetStudentPaginatedListQuery request, CancellationToken cancellationToken)
+        {
+            Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression = e => new GetStudentPaginatedListResponse(e.StudentId, e.Name, e.Address, e.Phone, e.Department.DName);
+            var query = _studentService.GetStudentsListQuerable();
+            var paginatedlist = await query.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+            return paginatedlist;
         }
     }
 }
