@@ -17,7 +17,7 @@
   Reusable data access logic to promote clean and maintainable code.
 
 * ✅ **Pagination Helper**
-  Implements efficient paging in queries with a consistent structure.
+  Implements efficient paging in queries with a consistent structure with ordering and search.
 
 * ✅ **ApiResponse & Wrapper Classes**
   Provides standardized API responses with success status and messages.
@@ -28,6 +28,6 @@
 * ✅ **Dependency Injection**
   For better modularity, testing, and separation of concerns.
 
-* ✅ **FluentValidation** *(if used)*
+* ✅ **FluentValidation** 
   For validating incoming data in command models.
 
