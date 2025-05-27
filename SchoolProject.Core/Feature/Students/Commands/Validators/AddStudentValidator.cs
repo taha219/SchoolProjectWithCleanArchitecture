@@ -1,25 +1,39 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Feature.Students.Commands.Models;
+using SchoolProject.Core.Resources;
 
 namespace SchoolProject.Core.Feature.Students.Commands.Validators
 {
     public class AddStudentValidator : AbstractValidator<AddStudentCommand>
     {
-        public AddStudentValidator()
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+        public AddStudentValidator(IStringLocalizer<SharedResources> stringLocalizer)
         {
-            RuleFor(x => x.Name).NotEmpty()
-                .WithMessage("Name is required")
+            this._stringLocalizer = stringLocalizer;
+            RuleFor(x => x.NameAr).NotEmpty()
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.NameRequired])
                 .MaximumLength(20)
-                .WithMessage("Name must not exceed 20 characters long");
-            RuleFor(x => x.Address)
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.Namelength]);
+            RuleFor(x => x.NameEn).NotEmpty()
+               .WithMessage(_stringLocalizer[SharedResourcesKeys.NameRequired])
+               .MaximumLength(20)
+               .WithMessage(_stringLocalizer[SharedResourcesKeys.Namelength]);
+            RuleFor(x => x.AddressAr)
                 .NotEmpty()
-                .WithMessage("Address is required")
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.AddressRequired])
                 .MaximumLength(20)
-                .WithMessage("Address must not exceed 50 characters long");
-            RuleFor(x => x.Phone).NotEmpty()
-                .WithMessage("Phone is required")
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.Addresslength]);
+            RuleFor(x => x.AddressEn)
+               .NotEmpty()
+               .WithMessage(_stringLocalizer[SharedResourcesKeys.AddressRequired])
+               .MaximumLength(20)
+               .WithMessage(_stringLocalizer[SharedResourcesKeys.Addresslength]);
+            RuleFor(x => x.Phone)
+                .NotEmpty()
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneRequired])
                 .Matches(@"^01[0125][0-9]{8}$")
-                .WithMessage("Phone must be a 11 & egyptian number");
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneVaild]);
         }
 
     }

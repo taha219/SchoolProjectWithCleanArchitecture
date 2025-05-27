@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.Students.Queries.Models;
 using SchoolProject.Core.Feature.Students.Queries.Results;
 using SchoolProject.Core.Features.Students.Queries.Models;
+using SchoolProject.Core.Resources;
 using SchoolProject.Core.Wrappers;
 using SchoolProject.Services.Abstract;
 
@@ -19,11 +21,14 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
 
         private readonly IStudentService _studentService;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
-        public StudentQueryHandler(IStudentService studentService, IMapper mapper)
+        public StudentQueryHandler(IStudentService studentService, IMapper mapper,
+                                   IStringLocalizer<SharedResources> stringLocalizer)
         {
             _studentService = studentService;
             _mapper = mapper;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<ApiResponse<List<GetStudentListResponse>>> Handle(GetStudentListQuery request, CancellationToken cancellationToken)
@@ -34,7 +39,7 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
                 return new ApiResponse<List<GetStudentListResponse>>
                 {
                     IsSuccess = false,
-                    Message = "No Students"
+                    Message = _stringLocalizer[SharedResourcesKeys.NotFoundStudent]
                 };
             }
             var mappedStudents = _mapper.Map<List<GetStudentListResponse>>(result);
@@ -43,7 +48,7 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
             {
                 Data = mappedStudents,
                 IsSuccess = true,
-                Message = "All students retrieved successfully"
+                Message = _stringLocalizer[SharedResourcesKeys.GetStudentList]
             };
         }
 
@@ -56,25 +61,24 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
                 return new ApiResponse<GetSingleStudentResponse>
                 {
                     IsSuccess = false,
-                    Message = "No student found with this ID"
+                    Message = _stringLocalizer[SharedResourcesKeys.NotFoundStudent]
                 };
             }
-
             var mappedStudent = _mapper.Map<GetSingleStudentResponse>(student);
 
             return new ApiResponse<GetSingleStudentResponse>
             {
                 Data = mappedStudent,
                 IsSuccess = true,
-                Message = "Student retrieved successfully"
+                Message = _stringLocalizer[SharedResourcesKeys.GetStudent]
             };
         }
 
         public async Task<PaginatedResult<GetStudentPaginatedListResponse>> Handle(GetStudentPaginatedListQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression = e => new GetStudentPaginatedListResponse(e.StudentId, e.Name, e.Address, e.Phone, e.Department.DName);
-            var query = _studentService.GetStudentsListQuerable();
-            var paginatedlist = await query.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+            Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression = e => new GetStudentPaginatedListResponse(e.StudentId, e.localize(e.NameAr, e.NameEn), e.localize(e.AddressAr, e.AddressEn), e.Phone, e.localize(e.Department.DNameAr, e.Department.DNameEn));
+            var filterquery = _studentService.FilterStudentPaginatedQuerable(request.OrderBy, request.Search);
+            var paginatedlist = await filterquery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
             return paginatedlist;
         }
     }

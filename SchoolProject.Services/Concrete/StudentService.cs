@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Core.Bases;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Enums;
 using SchoolProject.Infrastructure.Abstract;
 using SchoolProject.Services.Abstract;
 
@@ -34,10 +35,10 @@ namespace SchoolProject.Services.Concrete
         }
         public async Task<ApiResponse<string>> AddStudentAsync(Student student)
         {
-            var result = await _studentReposatory
-                                  .GetTableNoTracking()
-                                  .FirstOrDefaultAsync(x => x.Name == student.Name);
+            var Students = await _studentReposatory
+                                  .GetTableNoTracking().ToListAsync();
 
+            var result = Students.FirstOrDefault(x => x.localize(x.NameAr, x.NameEn) == student.localize(student.NameAr, student.NameEn));
             if (result != null)
             {
                 return new ApiResponse<string>
@@ -115,6 +116,32 @@ namespace SchoolProject.Services.Concrete
             return _studentReposatory.GetTableAsTracking()
                  .Include(x => x.Department)
                  .AsQueryable();
+        }
+
+        public IQueryable<Student> FilterStudentPaginatedQuerable(StudentOrderingEnum order, string search)
+        {
+            var query = _studentReposatory.GetTableAsTracking().Include(x => x.Department).AsQueryable();
+            if (search != null)
+            {
+                query = query.Where(x => x.localize(x.NameAr, x.NameEn).Contains(search) || x.localize(x.AddressAr, x.AddressEn).Contains(search));
+
+            }
+            switch (order)
+            {
+                case StudentOrderingEnum.StudentId:
+                    query = query.OrderBy(x => x.StudentId);
+                    break;
+                case StudentOrderingEnum.Name:
+                    query = query.OrderBy(x => x.localize(x.NameAr, x.NameEn));
+                    break;
+                case StudentOrderingEnum.Address:
+                    query = query.OrderBy(x => x.localize(x.AddressAr, x.AddressEn));
+                    break;
+                case StudentOrderingEnum.DepartmentName:
+                    query = query.OrderBy(x => x.localize(x.Department.DNameAr, x.Department.DNameEn));
+                    break;
+            }
+            return query;
         }
     }
 }
