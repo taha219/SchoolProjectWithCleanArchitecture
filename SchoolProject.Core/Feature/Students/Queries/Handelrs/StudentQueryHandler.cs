@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Globalization;
+using System.Linq.Expressions;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -76,7 +77,17 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
 
         public async Task<PaginatedResult<GetStudentPaginatedListResponse>> Handle(GetStudentPaginatedListQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression = e => new GetStudentPaginatedListResponse(e.StudentId, e.localize(e.NameAr, e.NameEn), e.localize(e.AddressAr, e.AddressEn), e.Phone, e.localize(e.Department.DNameAr, e.Department.DNameEn));
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression =
+                e => new GetStudentPaginatedListResponse(
+                    e.StudentId,
+                    culture == "ar" ? e.NameAr : e.NameEn,
+                    culture == "ar" ? e.AddressAr : e.AddressEn,
+                    e.Phone,
+                    culture == "ar" ? e.Department.DNameAr : e.Department.DNameEn
+                );
+
             var filterquery = _studentService.FilterStudentPaginatedQuerable(request.OrderBy, request.Search);
             var paginatedlist = await filterquery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
             return paginatedlist;

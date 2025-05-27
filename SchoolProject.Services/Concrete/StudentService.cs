@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Core.Bases;
 using SchoolProject.Data.Entities;
 using SchoolProject.Data.Enums;
@@ -120,27 +121,41 @@ namespace SchoolProject.Services.Concrete
 
         public IQueryable<Student> FilterStudentPaginatedQuerable(StudentOrderingEnum order, string search)
         {
-            var query = _studentReposatory.GetTableAsTracking().Include(x => x.Department).AsQueryable();
-            if (search != null)
-            {
-                query = query.Where(x => x.localize(x.NameAr, x.NameEn).Contains(search) || x.localize(x.AddressAr, x.AddressEn).Contains(search));
+            var query = _studentReposatory.GetTableAsTracking()
+                                          .Include(x => x.Department)
+                                          .AsQueryable();
 
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = culture == "ar"
+                    ? query.Where(x => x.NameAr.Contains(search) || x.AddressAr.Contains(search))
+                    : query.Where(x => x.NameEn.Contains(search) || x.AddressEn.Contains(search));
             }
+
             switch (order)
             {
                 case StudentOrderingEnum.StudentId:
                     query = query.OrderBy(x => x.StudentId);
                     break;
                 case StudentOrderingEnum.Name:
-                    query = query.OrderBy(x => x.localize(x.NameAr, x.NameEn));
+                    query = culture == "ar"
+                        ? query.OrderBy(x => x.NameAr)
+                        : query.OrderBy(x => x.NameEn);
                     break;
                 case StudentOrderingEnum.Address:
-                    query = query.OrderBy(x => x.localize(x.AddressAr, x.AddressEn));
+                    query = culture == "ar"
+                        ? query.OrderBy(x => x.AddressAr)
+                        : query.OrderBy(x => x.AddressEn);
                     break;
                 case StudentOrderingEnum.DepartmentName:
-                    query = query.OrderBy(x => x.localize(x.Department.DNameAr, x.Department.DNameEn));
+                    query = culture == "ar"
+                        ? query.OrderBy(x => x.Department.DNameAr)
+                        : query.OrderBy(x => x.Department.DNameEn);
                     break;
             }
+
             return query;
         }
     }
