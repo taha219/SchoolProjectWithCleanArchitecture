@@ -81,7 +81,7 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
 
             Expression<Func<SchoolProject.Data.Entities.Student, GetStudentPaginatedListResponse>> expression =
                 e => new GetStudentPaginatedListResponse(
-                    e.StudentId,
+                    e.StudID,
                     culture == "ar" ? e.NameAr : e.NameEn,
                     culture == "ar" ? e.AddressAr : e.AddressEn,
                     e.Phone,

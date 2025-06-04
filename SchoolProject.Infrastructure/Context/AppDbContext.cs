@@ -10,11 +10,11 @@ namespace SchoolProject.Infrastructure.Data
         {
 
         }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<StudentSubject> StudentSubjects { get; set; }
-        public DbSet<DepartmentSubject> DepartmetSubjects { get; set; }
+        public DbSet<Department> departments { get; set; }
+        public DbSet<Student> students { get; set; }
+        public DbSet<DepartmetSubject> departmetSubjects { get; set; }
+        public DbSet<Subjects> subjects { get; set; }
+        public DbSet<StudentSubject> studentSubjects { get; set; }
     }
 
 }

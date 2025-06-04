@@ -8,7 +8,7 @@ namespace SchoolProject.Core.Mapping.StudentMapping
         public void AddStudentMapping()
         {
             CreateMap<AddStudentCommand, Student>()
-                .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.DepartmentId));
+                .ForMember(dest => dest.DID, opt => opt.MapFrom(src => src.DepartmentId));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SchoolProject.Services.Concrete
         {
             var student = await _studentReposatory.GetTableAsTracking()
                                                   .Include(x => x.Department)
-                                                  .Where(x => x.StudentId.Equals(id))
+                                                  .Where(x => x.StudID.Equals(id))
                                                   .FirstOrDefaultAsync();
             return student;
         }
@@ -70,7 +70,7 @@ namespace SchoolProject.Services.Concrete
         }
         public async Task<ApiResponse<string>> EditStudentDepartmentAsync(Student student)
         {
-            if (!student.DepartmentId.HasValue)
+            if (!student.DID.HasValue)
             {
                 return new ApiResponse<string>
                 {
@@ -79,7 +79,7 @@ namespace SchoolProject.Services.Concrete
                 };
             }
 
-            var existingdepartment = await _departmentReposatory.GetByIdAsync(student.DepartmentId.Value);
+            var existingdepartment = await _departmentReposatory.GetByIdAsync(student.DID.Value);
             if (existingdepartment == null)
             {
                 return new ApiResponse<string>
@@ -137,7 +137,7 @@ namespace SchoolProject.Services.Concrete
             switch (order)
             {
                 case StudentOrderingEnum.StudentId:
-                    query = query.OrderBy(x => x.StudentId);
+                    query = query.OrderBy(x => x.StudID);
                     break;
                 case StudentOrderingEnum.Name:
                     query = culture == "ar"
