@@ -31,3 +31,5 @@
 * ✅ **FluentValidation** 
   For validating incoming data in command models.
 
+* ✅ **Localization** 
+  To support arabic & english languages 
