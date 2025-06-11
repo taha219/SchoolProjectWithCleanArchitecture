@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolProject.Data.Entities
 {
-    public class DepartmetSubject
+    [PrimaryKey(nameof(DID), nameof(SubID))]
+    public class DepartmentSubject
     {
-        [Key]
         public int DID { get; set; }
-        [Key]
         public int SubID { get; set; }
 
         [ForeignKey("DID")]
@@ -15,7 +14,7 @@ namespace SchoolProject.Data.Entities
         public virtual Department? Department { get; set; }
 
         [ForeignKey("SubID")]
-        [InverseProperty("DepartmetsSubjects")]
+        [InverseProperty("DepartmentSubjects")]
         public virtual Subjects? Subject { get; set; }
     }
 }

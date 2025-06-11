@@ -24,10 +24,10 @@ namespace SchoolProject.Data.Entities
         public int DID { get; set; }
         [ForeignKey(nameof(DID))]
         [InverseProperty("Instructors")]
-        public Department? department { get; set; }
+        public Department? Department { get; set; }
 
         [InverseProperty("Instructor")]
-        public Department? departmentManager { get; set; }
+        public Department? DepartmentManager { get; set; }
 
 
         [ForeignKey(nameof(SupervisorId))]

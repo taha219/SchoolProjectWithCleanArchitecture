@@ -8,7 +8,7 @@ namespace SchoolProject.Data.Entities
     {
         public Student()
         {
-            StudentSubject = new HashSet<StudentSubject>();
+            StudentSubjects = new HashSet<StudentSubject>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,7 +19,7 @@ namespace SchoolProject.Data.Entities
         public string? AddressAr { get; set; }
         [StringLength(200)]
         public string? AddressEn { get; set; }
-        [StringLength(500)]
+        [StringLength(200)]
         public string? Phone { get; set; }
         public int? DID { get; set; }
 
@@ -27,6 +27,6 @@ namespace SchoolProject.Data.Entities
         [InverseProperty("Students")]
         public virtual Department? Department { get; set; }
         [InverseProperty("Student")]
-        public virtual ICollection<StudentSubject> StudentSubject { get; set; }
+        public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolProject.Data.Entities
 {
+    [PrimaryKey(nameof(InsId), nameof(SubId))]
     public class Ins_Subject
     {
-        [Key]
+
         public int InsId { get; set; }
-        [Key]
+
         public int SubId { get; set; }
         [ForeignKey(nameof(InsId))]
         [InverseProperty("Ins_Subjects")]
