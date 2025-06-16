@@ -15,6 +15,8 @@
         public const string GetStudentList = "GetStudentList";
         public const string EditStudent = "EditStudent";
         public const string EditStudentDepartment = "EditStudentDepartment";
+        public const string NotFoundDepartment = "NotFoundDepartment";
+        public const string GetDepartmentByID = "GetDepartmentByID";
 
     }
 }

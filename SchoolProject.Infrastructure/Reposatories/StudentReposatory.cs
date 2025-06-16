@@ -24,7 +24,6 @@ namespace SchoolProject.Infrastructure.Concrete
         {
             return await _students.Include(x => x.Department).ToListAsync();
         }
-
         #endregion
 
 

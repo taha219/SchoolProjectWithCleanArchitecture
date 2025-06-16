@@ -158,5 +158,12 @@ namespace SchoolProject.Services.Concrete
 
             return query;
         }
+
+        public IQueryable<Student> GetStudentsByDepartmentQuerable(int id)
+        {
+            return _studentReposatory.GetTableAsTracking()
+                                     .Where(x => x.DID == id)
+                                     .AsQueryable();
+        }
     }
 }

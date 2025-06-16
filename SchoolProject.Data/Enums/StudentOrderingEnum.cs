@@ -1,6 +1,7 @@
 ﻿namespace SchoolProject.Data.Enums
 {
-    public enum StudentOrderingEnum
+    public enum
+        StudentOrderingEnum
     {
         StudentId = 1,
         Name = 2,

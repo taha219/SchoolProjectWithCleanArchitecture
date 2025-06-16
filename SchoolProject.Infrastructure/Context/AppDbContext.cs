@@ -11,7 +11,7 @@ namespace SchoolProject.Infrastructure.Data
 
         }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Subjects> Subjects { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<StudentSubject> StudentSubjects { get; set; }
@@ -51,7 +51,6 @@ namespace SchoolProject.Infrastructure.Data
                 .HasOne(ins => ins.Subject)
                 .WithMany(s => s.Ins_Subjects)
                 .HasForeignKey(ins => ins.SubId);
-
 
         }
     }

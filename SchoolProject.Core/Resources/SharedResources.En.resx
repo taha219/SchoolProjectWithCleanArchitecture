@@ -133,7 +133,10 @@
     <value>Student Edited Successfully</value>
   </data>
   <data name="EditStudentDepartment" xml:space="preserve">
-    <value>student Department Successfully</value>
+    <value>Student Department Successfully</value>
+  </data>
+  <data name="GetDepartmentByID" xml:space="preserve">
+    <value>Department Retrieved Successfully</value>
   </data>
   <data name="GetStudent" xml:space="preserve">
     <value>Student Retrieved Successfully</value>
@@ -146,6 +149,9 @@
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name Field Is Required</value>
+  </data>
+  <data name="NotFoundDepartment" xml:space="preserve">
+    <value>Department Not Found</value>
   </data>
   <data name="NotFoundStudent" xml:space="preserve">
     <value>Student is not found</value>

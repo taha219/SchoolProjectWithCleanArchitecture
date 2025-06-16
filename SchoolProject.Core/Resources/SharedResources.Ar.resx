@@ -135,6 +135,9 @@
   <data name="EditStudentDepartment" xml:space="preserve">
     <value>تم تعديل قسم الطالب بنجاح</value>
   </data>
+  <data name="GetDepartmentByID" xml:space="preserve">
+    <value>تم إارجاع القسم بنجاح</value>
+  </data>
   <data name="GetStudent" xml:space="preserve">
     <value>تم إرجاع الطالب بنجاح</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>حقل الاسم مطلوب</value>
+  </data>
+  <data name="NotFoundDepartment" xml:space="preserve">
+    <value>هذا القسم غير موجود</value>
   </data>
   <data name="NotFoundStudent" xml:space="preserve">
     <value>الطالب غير موجود</value>

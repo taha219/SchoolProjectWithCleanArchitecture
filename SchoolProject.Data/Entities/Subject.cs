@@ -4,9 +4,9 @@ using SchoolProject.Data.Common;
 
 namespace SchoolProject.Data.Entities
 {
-    public class Subjects : GeneralLocalizableEntity
+    public class Subject : GeneralLocalizableEntity
     {
-        public Subjects()
+        public Subject()
         {
             StudentSubjects = new HashSet<StudentSubject>();
             DepartmentSubjects = new HashSet<DepartmentSubject>();

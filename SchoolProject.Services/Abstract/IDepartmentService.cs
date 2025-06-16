@@ -1,6 +1,9 @@
-﻿namespace SchoolProject.Services.Abstract
+﻿using SchoolProject.Data.Entities;
+
+namespace SchoolProject.Services.Abstract
 {
-    internal interface IDepartmentService
+    public interface IDepartmentService
     {
+        public Task<Department> GetDepartmentByIdAsync(int id);
     }
 }
