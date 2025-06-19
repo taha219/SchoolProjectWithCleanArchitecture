@@ -2,12 +2,20 @@
 {
     public class SharedResourcesKeys
     {
+        #region 
         public const string NameRequired = "NameRequired";
         public const string Namelength = "Namelength";
         public const string AddressRequired = "AddressRequired";
         public const string Addresslength = "Addresslength";
         public const string PhoneRequired = "PhoneRequired";
         public const string PhoneNotVaild = "PhoneNotVaild";
+        public const string EmailRequired = "EmailRequired";
+        public const string EmailNotVaild = "EmailNotVaild";
+        public const string PasswordNotValid = "PasswordNotValid";
+        public const string PasswordRequired = "PasswordRequired";
+        #endregion
+
+        #region Student
         public const string NotFoundStudent = "NotFoundStudent";
         public const string DeletedStudent = "DeletedStudent";
         public const string DeletedFailedStudent = "DeletedFailedStudent";
@@ -15,13 +23,15 @@
         public const string GetStudentList = "GetStudentList";
         public const string EditStudent = "EditStudent";
         public const string EditStudentDepartment = "EditStudentDepartment";
+        #endregion
+
+        #region Department
         public const string NotFoundDepartment = "NotFoundDepartment";
         public const string GetDepartmentByID = "GetDepartmentByID";
         public const string DepartmentIsNotExist = "DepartmentIsNotExist";
-        public const string EmailRequired = "EmailRequired";
-        public const string EmailNotVaild = "EmailNotVaild";
-        public const string PasswordNotValid = "PasswordNotValid";
-        public const string PasswordRequired = "PasswordRequired";
+        #endregion
+
+        #region User
         public const string UserWithExistUserNameFound = "UserWithExistUserNameFound";
         public const string UserWithExistEmailFound = "UserWithExistEmailFound";
         public const string AddUserSuccessfully = "AddUserSuccessfully";
@@ -31,9 +41,9 @@
         public const string UserWithExistUserNameOrEmailFound = "UserWithExistUserNameOrEmailFound";
         public const string EditUserSuccessfully = "EditUserSuccessfully";
         public const string EditUserFailed = "EditUserFailed";
-
-
-
+        public const string DeletedUser = "DeletedUser";
+        public const string DeleteUserFailed = "DeleteUserFailed";
+        #endregion
 
     }
 }

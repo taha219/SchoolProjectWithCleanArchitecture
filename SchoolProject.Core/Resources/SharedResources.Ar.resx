@@ -190,18 +190,21 @@
     <value>فشل إنشاء المستخدم</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
-    <value>لا يوجد مستخدم بهذا الاسم</value>
+    <value>هذا المستخدم غير موجود</value>
   </data>
   <data name="GetSingleUserByUserName" xml:space="preserve">
     <value>تم إرجاع المستخدم بنجاح</value>
-  </data>
-  <data name="UserWithExistUserNameOrEmailFound" xml:space="preserve">
-    <value>هناك مستخدم بنفس الاسم او الايميل</value>
   </data>
   <data name="EditUserSuccessfully" xml:space="preserve">
     <value>تم تعديل المستخدم بنجاح</value>
   </data>
   <data name="EditUserFailed" xml:space="preserve">
     <value>لم يتم تعديل المستخدم</value>
+  </data>
+  <data name="DeletedUser" xml:space="preserve">
+    <value>تم مسح المستخدم بنجاح</value>
+  </data>
+  <data name="DeleteUserFailed" xml:space="preserve">
+    <value>تعذر مسح المستخدم</value>
   </data>
 </root>

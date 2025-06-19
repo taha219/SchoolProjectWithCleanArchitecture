@@ -12,7 +12,8 @@ using SchoolProject.Data.Entities;
 namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 {
     public class AppUserCommandHandler : IRequestHandler<AddAppUserCommand, ApiResponse<string>>,
-                                         IRequestHandler<EditUserCommand, ApiResponse<string>>
+                                         IRequestHandler<EditUserCommand, ApiResponse<string>>,
+                                         IRequestHandler<DeleteUserCommman, ApiResponse<string>>
     {
 
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -82,6 +83,21 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
             {
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound] };
             }
+        }
+
+        public async Task<ApiResponse<string>> Handle(DeleteUserCommman request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.Id);
+            if (user == null)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
+            }
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.DeleteUserFailed] };
+            }
+            return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.DeletedUser] };
         }
     }
 }
