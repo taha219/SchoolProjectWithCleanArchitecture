@@ -129,14 +129,23 @@
   <data name="DeletedStudent" xml:space="preserve">
     <value>تم مسح الطالب بنجاح</value>
   </data>
+  <data name="DepartmentIsNotExist" xml:space="preserve">
+    <value>هذا القسم غير موجود</value>
+  </data>
   <data name="EditStudent" xml:space="preserve">
     <value>تم تعديل الطالب بنجاح</value>
   </data>
   <data name="EditStudentDepartment" xml:space="preserve">
     <value>تم تعديل قسم الطالب بنجاح</value>
   </data>
+  <data name="EmailNotVaild" xml:space="preserve">
+    <value>صيغة الايميل غير صحيحة</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>حقل الايميل مطلوب</value>
+  </data>
   <data name="GetDepartmentByID" xml:space="preserve">
-    <value>تم إارجاع القسم بنجاح</value>
+    <value>تم إرجاع القسم بنجاح</value>
   </data>
   <data name="GetStudent" xml:space="preserve">
     <value>تم إرجاع الطالب بنجاح</value>
@@ -156,10 +165,34 @@
   <data name="NotFoundStudent" xml:space="preserve">
     <value>الطالب غير موجود</value>
   </data>
+  <data name="PasswordNotValid" xml:space="preserve">
+    <value>يجب أن تتكون كلمة المرور من 6 إلى 50 حرفًا وتتضمن أحرفًا كبيرة وصغيرة وأرقامًا وحرفًا خاصًا.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>حقل كلمة السر مطلوب</value>
+  </data>
   <data name="PhoneRequired" xml:space="preserve">
     <value>حقل رقم الموبايل مطلوب</value>
   </data>
-  <data name="Phonevaild" xml:space="preserve">
+  <data name="PhoneNotVaild" xml:space="preserve">
     <value>يجب أن يكون الرقم مصري ويتكون من 11 خانة</value>
+  </data>
+  <data name="UserWithExistUserNameFound" xml:space="preserve">
+    <value>هناك مستخدم بنفس الاسم</value>
+  </data>
+  <data name="UserWithExistEmailFound" xml:space="preserve">
+    <value>هناك مستخدم بنفس الايميل</value>
+  </data>
+  <data name="AddUserSuccessfully" xml:space="preserve">
+    <value>تم إضافة المستخدم بنجاح</value>
+  </data>
+  <data name="AddUserFailed" xml:space="preserve">
+    <value>فشل إنشاء المستخدم</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>لا يوجد مستخدم بهذا الاسم</value>
+  </data>
+  <data name="GetSingleUserByUserName" xml:space="preserve">
+    <value>تم إرجاع المستخدم بنجاح</value>
   </data>
 </root>

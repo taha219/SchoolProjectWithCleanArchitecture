@@ -34,7 +34,7 @@ namespace SchoolProject.Core.Feature.Students.Commands.Validators
                 .NotEmpty()
                 .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneRequired])
                 .Matches(@"^01[0125][0-9]{8}$")
-                 .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneVaild]);
+                 .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneNotVaild]);
         }
     }
 }

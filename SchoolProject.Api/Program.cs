@@ -1,9 +1,11 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SchoolProject.Core;
+using SchoolProject.Data.Entities;
 using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Services;
@@ -27,6 +29,11 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("mycon")));
 
+builder.Services.AddIdentityCore<AppUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()
                 .AddServicesDependencies()
@@ -45,8 +52,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     List<CultureInfo> supportedCultures = new List<CultureInfo>
     {
         new CultureInfo("en-US"),
-        new CultureInfo("de-DE"),
-        new CultureInfo("fr-FR"),
         new CultureInfo("ar-EG")
     };
 

@@ -2,15 +2,21 @@
 using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Feature.Students.Commands.Models;
 using SchoolProject.Core.Resources;
+using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Students.Commands.Validators
 {
     public class AddStudentValidator : AbstractValidator<AddStudentCommand>
     {
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
-        public AddStudentValidator(IStringLocalizer<SharedResources> stringLocalizer)
+        private readonly IDepartmentService _departmentService;
+
+        public AddStudentValidator(IStringLocalizer<SharedResources> stringLocalizer, IDepartmentService departmentService)
         {
             this._stringLocalizer = stringLocalizer;
+            _departmentService = departmentService;
+            ApplyCustomValidationsRules();
+
             RuleFor(x => x.NameAr).NotEmpty()
                 .WithMessage(_stringLocalizer[SharedResourcesKeys.NameRequired])
                 .MaximumLength(20)
@@ -33,8 +39,14 @@ namespace SchoolProject.Core.Feature.Students.Commands.Validators
                 .NotEmpty()
                 .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneRequired])
                 .Matches(@"^01[0125][0-9]{8}$")
-                .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneVaild]);
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.PhoneNotVaild]);
         }
+        public void ApplyCustomValidationsRules()
+        {
 
+            RuleFor(x => x.DepartmentId)
+           .MustAsync(async (Key, CancellationToken) => await _departmentService.IsDepartmentIdExist(Key))
+           .WithMessage(_stringLocalizer[SharedResourcesKeys.DepartmentIsNotExist]);
+        }
     }
 }

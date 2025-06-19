@@ -129,11 +129,20 @@
   <data name="DeletedStudent" xml:space="preserve">
     <value>Student Deleted Successfully</value>
   </data>
+  <data name="DepartmentIsNotExist" xml:space="preserve">
+    <value>This Department Not Exist</value>
+  </data>
   <data name="EditStudent" xml:space="preserve">
     <value>Student Edited Successfully</value>
   </data>
   <data name="EditStudentDepartment" xml:space="preserve">
     <value>Student Department Successfully</value>
+  </data>
+  <data name="EmailNotVaild" xml:space="preserve">
+    <value>Email Format Is Not Valid</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email Field Required</value>
   </data>
   <data name="GetDepartmentByID" xml:space="preserve">
     <value>Department Retrieved Successfully</value>
@@ -156,10 +165,34 @@
   <data name="NotFoundStudent" xml:space="preserve">
     <value>Student is not found</value>
   </data>
+  <data name="PasswordNotValid" xml:space="preserve">
+    <value>Password must be 6-50 characters and include uppercase, lowercase, number, and special character.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password Field Is Required</value>
+  </data>
   <data name="PhoneRequired" xml:space="preserve">
     <value>Phone Number Field Is required</value>
   </data>
-  <data name="Phonevaild" xml:space="preserve">
+  <data name="PhoneNotVaild" xml:space="preserve">
     <value>Phone must be a 11 digit &amp; egyptian number</value>
+  </data>
+  <data name="UserWithExistUserNameFound" xml:space="preserve">
+    <value>There is User With Same UserName</value>
+  </data>
+  <data name="UserWithExistEmailFound" xml:space="preserve">
+    <value>There Is User With Same Email</value>
+  </data>
+  <data name="AddUserSuccessfully" xml:space="preserve">
+    <value>User Added Successfully</value>
+  </data>
+  <data name="AddUserFailed" xml:space="preserve">
+    <value>Failed to create user</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>There is no user with this username</value>
+  </data>
+  <data name="GetSingleUserByUserName" xml:space="preserve">
+    <value>User Retrieved Successfully</value>
   </data>
 </root>

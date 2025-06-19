@@ -25,7 +25,10 @@ namespace SchoolProject.Services.Concrete
 
             return department;
         }
-
+        public async Task<bool> IsDepartmentIdExist(int departmentId)
+        {
+            return await _departmentReposatory.GetTableNoTracking().AnyAsync(x => x.DID.Equals(departmentId));
+        }
 
     }
 
