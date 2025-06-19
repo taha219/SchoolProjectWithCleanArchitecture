@@ -195,4 +195,13 @@
   <data name="GetSingleUserByUserName" xml:space="preserve">
     <value>User Retrieved Successfully</value>
   </data>
+  <data name="UserWithExistUserNameOrEmailFound" xml:space="preserve">
+    <value>There is User With Same UserName or Email</value>
+  </data>
+  <data name="EditUserSuccessfully" xml:space="preserve">
+    <value>Edit user Successfully</value>
+  </data>
+  <data name="EditUserFailed" xml:space="preserve">
+    <value>Edit user failed</value>
+  </data>
 </root>

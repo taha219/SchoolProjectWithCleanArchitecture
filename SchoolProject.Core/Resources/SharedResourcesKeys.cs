@@ -28,6 +28,11 @@
         public const string AddUserFailed = "AddUserFailed";
         public const string UserNotFound = "UserNotFound";
         public const string GetSingleUserByUserName = "GetSingleUserByUserName";
+        public const string UserWithExistUserNameOrEmailFound = "UserWithExistUserNameOrEmailFound";
+        public const string EditUserSuccessfully = "EditUserSuccessfully";
+        public const string EditUserFailed = "EditUserFailed";
+
+
 
 
     }

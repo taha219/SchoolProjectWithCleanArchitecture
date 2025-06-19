@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.ApplicationUser.Command.Models;
+using SchoolProject.Core.Feature.ApplicationUser.Commands.Models;
 using SchoolProject.Core.Resources;
 using SchoolProject.Data.Entities;
 
 namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 {
-    public class AppUserCommandHandler : IRequestHandler<AddAppUserCommand, ApiResponse<string>>
+    public class AppUserCommandHandler : IRequestHandler<AddAppUserCommand, ApiResponse<string>>,
+                                         IRequestHandler<EditUserCommand, ApiResponse<string>>
     {
 
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -47,6 +50,38 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
             }
             return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.AddUserSuccessfully] };
+        }
+        public async Task<ApiResponse<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+        {
+            var olduser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (olduser == null)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
+            }
+            var userbyName = await _userManager.FindByNameAsync(request.UserName);
+            var userByemail = await _userManager.FindByEmailAsync(request.Email);
+
+            if (userbyName == null && userByemail == null)
+            {
+                var mappedUser = _mapper.Map(request, olduser);
+                var result = await _userManager.UpdateAsync(mappedUser);
+                if (!result.Succeeded)
+                {
+                    return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.EditUserFailed] };
+                }
+                else
+                {
+                    return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.EditUserSuccessfully] };
+                }
+            }
+            else if (userbyName != null)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistUserNameFound] };
+            }
+            else
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound] };
+            }
         }
     }
 }

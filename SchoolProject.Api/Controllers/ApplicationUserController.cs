@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.ApplicationUser.Command.Models;
+using SchoolProject.Core.Feature.ApplicationUser.Commands.Models;
 using SchoolProject.Core.Feature.ApplicationUser.Queries.Models;
 
 namespace SchoolProject.Api.Controllers
@@ -35,6 +36,14 @@ namespace SchoolProject.Api.Controllers
         public async Task<IActionResult> GetSingleUser([FromRoute] string username)
         {
             var result = await _mediator.Send(new GetSingleUserByUserNameQuery(username));
+            return Ok(result);
+        }
+        [HttpPut("EditUser")]
+        public async Task<IActionResult> EditUser([FromBody] EditUserCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+                return Conflict(result);
             return Ok(result);
         }
     }

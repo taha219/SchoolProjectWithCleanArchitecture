@@ -195,4 +195,13 @@
   <data name="GetSingleUserByUserName" xml:space="preserve">
     <value>تم إرجاع المستخدم بنجاح</value>
   </data>
+  <data name="UserWithExistUserNameOrEmailFound" xml:space="preserve">
+    <value>هناك مستخدم بنفس الاسم او الايميل</value>
+  </data>
+  <data name="EditUserSuccessfully" xml:space="preserve">
+    <value>تم تعديل المستخدم بنجاح</value>
+  </data>
+  <data name="EditUserFailed" xml:space="preserve">
+    <value>لم يتم تعديل المستخدم</value>
+  </data>
 </root>
