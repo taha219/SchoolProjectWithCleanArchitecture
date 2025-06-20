@@ -207,4 +207,13 @@
   <data name="DeleteUserFailed" xml:space="preserve">
     <value>Failed To Delete User</value>
   </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Password Changed Successfully</value>
+  </data>
+  <data name="NewPassNotEqualConfirmPass" xml:space="preserve">
+    <value>New Password is not qual confirm password</value>
+  </data>
+  <data name="OldPasswordIncorrect" xml:space="preserve">
+    <value>Old Password Is Incorrect</value>
+  </data>
 </root>

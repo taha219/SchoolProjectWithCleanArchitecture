@@ -43,6 +43,10 @@
         public const string EditUserFailed = "EditUserFailed";
         public const string DeletedUser = "DeletedUser";
         public const string DeleteUserFailed = "DeleteUserFailed";
+        public const string PasswordChangedSuccessfully = "PasswordChangedSuccessfully";
+        public const string NewPassNotEqualConfirmPass = "NewPassNotEqualConfirmPass";
+        public const string OldPasswordIncorrect = "OldPasswordIncorrect";
+
         #endregion
 
     }

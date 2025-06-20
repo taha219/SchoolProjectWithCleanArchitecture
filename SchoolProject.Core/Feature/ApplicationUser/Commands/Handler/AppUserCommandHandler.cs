@@ -13,7 +13,8 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 {
     public class AppUserCommandHandler : IRequestHandler<AddAppUserCommand, ApiResponse<string>>,
                                          IRequestHandler<EditUserCommand, ApiResponse<string>>,
-                                         IRequestHandler<DeleteUserCommman, ApiResponse<string>>
+                                         IRequestHandler<DeleteUserCommman, ApiResponse<string>>,
+                                         IRequestHandler<ChangeUserPasswordCommand, ApiResponse<string>>
     {
 
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -98,6 +99,34 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.DeleteUserFailed] };
             }
             return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.DeletedUser] };
+        }
+
+        public async Task<ApiResponse<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user == null)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
+            }
+            var isOldPasswordCorrect = await _userManager.CheckPasswordAsync(user, request.OldPassword);
+            if (!isOldPasswordCorrect)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.OldPasswordIncorrect] };
+            }
+            if (request.NewPassword != request.ConfirmPassword)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.NewPassNotEqualConfirmPass] };
+            }
+            var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.ConfirmPassword);
+            if (!result.Succeeded)
+            {
+                return new ApiResponse<string> { IsSuccess = false, Message = result.Errors.FirstOrDefault().Description };
+            }
+            return new ApiResponse<string>
+            {
+                IsSuccess = true,
+                Message = _stringLocalizer[SharedResourcesKeys.PasswordChangedSuccessfully]
+            };
         }
     }
 }

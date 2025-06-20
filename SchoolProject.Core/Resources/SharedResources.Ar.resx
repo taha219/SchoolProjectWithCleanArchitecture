@@ -207,4 +207,13 @@
   <data name="DeleteUserFailed" xml:space="preserve">
     <value>تعذر مسح المستخدم</value>
   </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>تم تغيير كلمة المرور بنجاح</value>
+  </data>
+  <data name="NewPassNotEqualConfirmPass" xml:space="preserve">
+    <value>كلمة المرور الجديدة لا تساوي كلمة المرور المؤكدة</value>
+  </data>
+  <data name="OldPasswordIncorrect" xml:space="preserve">
+    <value>كلمة المرور القديمة غير صحيحة</value>
+  </data>
 </root>
