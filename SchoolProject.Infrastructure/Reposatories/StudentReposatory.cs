@@ -22,7 +22,7 @@ namespace SchoolProject.Infrastructure.Concrete
         #region Methods
         public async Task<List<Student>> GetAllStudents()
         {
-            return await _students.Include(x => x.Department).ToListAsync();
+            return await _students.Include(x => x.Department).Where(x => x.IsDeleted == false).ToListAsync();
         }
         #endregion
 

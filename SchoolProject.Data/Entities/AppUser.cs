@@ -4,6 +4,5 @@ namespace SchoolProject.Data.Entities
 {
     public class AppUser : IdentityUser
     {
-
     }
 }

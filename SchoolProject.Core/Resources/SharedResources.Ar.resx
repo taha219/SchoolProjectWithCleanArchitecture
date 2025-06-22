@@ -216,4 +216,13 @@
   <data name="OldPasswordIncorrect" xml:space="preserve">
     <value>كلمة المرور القديمة غير صحيحة</value>
   </data>
+  <data name="NotEmpty" xml:space="preserve">
+    <value>يجب أن تملأ هذا الحقل </value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>هذا الحقل إلزامي </value>
+  </data>
+  <data name="PasswordNotCorrect" xml:space="preserve">
+    <value>كلمة المرور غير صحيحة</value>
+  </data>
 </root>

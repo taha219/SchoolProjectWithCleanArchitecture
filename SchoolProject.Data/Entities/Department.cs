@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolProject.Data.Common;
+using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Data.Entities
 {
-    public partial class Department : GeneralLocalizableEntity
+    public partial class Department : GeneralLocalizableEntity, ISoftDeleteable
     {
         public Department()
         {
@@ -32,6 +33,8 @@ namespace SchoolProject.Data.Entities
         [ForeignKey("InsManager")]
         [InverseProperty("DepartmentManager")]
         public virtual Instructor? Instructor { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
 
     }
 }

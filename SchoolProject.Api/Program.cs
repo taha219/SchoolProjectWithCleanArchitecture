@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using SchoolProject.Core;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Services;
+using TestRESTAPI.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,22 +18,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "School API",
-        Version = "v1",
-        Description = "Endpoints for SchoolProject services"
-    });
     c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 });
+builder.Services.AddSwaggerGenJwtAuth();
+builder.Services.AddCustomJwtAuth(builder.Configuration);
+builder.Services.AddScoped<SoftDeleteInterceptor>();
 
-builder.Services.AddDbContext<AppDbContext>(x =>
-    x.UseSqlServer(builder.Configuration.GetConnectionString("mycon")));
+builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+{
+    var interceptor = serviceProvider.GetRequiredService<SoftDeleteInterceptor>();
 
-builder.Services.AddIdentityCore<AppUser>()
-    .AddRoles<IdentityRole>()
+    options.UseSqlServer(builder.Configuration.GetConnectionString("mycon"))
+           .AddInterceptors(interceptor);
+});
+
+
+// Configure Identity
+// note=> add identity register usermanger + role manager + sign in manager but if you use identity core it will not include sign in manager 
+builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+
 
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolProject.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SchoolProject.Infrastructure.Data;
 namespace SchoolProject.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250622134328_softdelete")]
+    partial class softdelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,38 +249,6 @@ namespace SchoolProject.Infrastructure.Migrations
                         .HasFilter("[InsManager] IS NOT NULL");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            DID = 1,
-                            DNameAr = "علوم الحاسوب",
-                            DNameEn = "Computer Science"
-                        },
-                        new
-                        {
-                            DID = 2,
-                            DNameAr = "هندسة البرمجيات",
-                            DNameEn = "Software Engineering"
-                        },
-                        new
-                        {
-                            DID = 3,
-                            DNameAr = "نظم المعلومات",
-                            DNameEn = "Information Systems"
-                        },
-                        new
-                        {
-                            DID = 4,
-                            DNameAr = "الذكاء الاصطناعي",
-                            DNameEn = "Artificial Intelligence"
-                        },
-                        new
-                        {
-                            DID = 5,
-                            DNameAr = "الأمن السيبراني",
-                            DNameEn = "Cyber Security"
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.DepartmentSubject", b =>
@@ -293,33 +264,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasIndex("SubID");
 
                     b.ToTable("DepartmentSubjects", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            DID = 1,
-                            SubID = 1
-                        },
-                        new
-                        {
-                            DID = 2,
-                            SubID = 2
-                        },
-                        new
-                        {
-                            DID = 3,
-                            SubID = 3
-                        },
-                        new
-                        {
-                            DID = 4,
-                            SubID = 4
-                        },
-                        new
-                        {
-                            DID = 5,
-                            SubID = 5
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.Ins_Subject", b =>
@@ -335,33 +279,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasIndex("SubId");
 
                     b.ToTable("InsSubjects", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            InsId = 1,
-                            SubId = 1
-                        },
-                        new
-                        {
-                            InsId = 2,
-                            SubId = 2
-                        },
-                        new
-                        {
-                            InsId = 3,
-                            SubId = 3
-                        },
-                        new
-                        {
-                            InsId = 4,
-                            SubId = 4
-                        },
-                        new
-                        {
-                            InsId = 5,
-                            SubId = 5
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.Instructor", b =>
@@ -403,43 +320,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasIndex("SupervisorId");
 
                     b.ToTable("Instructors");
-
-                    b.HasData(
-                        new
-                        {
-                            InsId = 1,
-                            DID = 1,
-                            ENameAr = "د. محمد",
-                            ENameEn = "Dr. Mohamed"
-                        },
-                        new
-                        {
-                            InsId = 2,
-                            DID = 2,
-                            ENameAr = "د. سارة",
-                            ENameEn = "Dr. Sarah"
-                        },
-                        new
-                        {
-                            InsId = 3,
-                            DID = 3,
-                            ENameAr = "د. أحمد",
-                            ENameEn = "Dr. Ahmed"
-                        },
-                        new
-                        {
-                            InsId = 4,
-                            DID = 4,
-                            ENameAr = "د. فاطمة",
-                            ENameEn = "Dr. Fatma"
-                        },
-                        new
-                        {
-                            InsId = 5,
-                            DID = 5,
-                            ENameAr = "د. عمرو",
-                            ENameEn = "Dr. Amr"
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.Student", b =>
@@ -482,48 +362,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasIndex("DID");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            StudID = 1,
-                            DID = 1,
-                            IsDeleted = false,
-                            NameAr = "علي",
-                            NameEn = "Ali"
-                        },
-                        new
-                        {
-                            StudID = 2,
-                            DID = 2,
-                            IsDeleted = false,
-                            NameAr = "مريم",
-                            NameEn = "Mariam"
-                        },
-                        new
-                        {
-                            StudID = 3,
-                            DID = 3,
-                            IsDeleted = false,
-                            NameAr = "يوسف",
-                            NameEn = "Youssef"
-                        },
-                        new
-                        {
-                            StudID = 4,
-                            DID = 4,
-                            IsDeleted = false,
-                            NameAr = "سلمى",
-                            NameEn = "Salma"
-                        },
-                        new
-                        {
-                            StudID = 5,
-                            DID = 5,
-                            IsDeleted = false,
-                            NameAr = "حسن",
-                            NameEn = "Hassan"
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.StudentSubject", b =>
@@ -542,38 +380,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasIndex("SubID");
 
                     b.ToTable("StudentSubjects");
-
-                    b.HasData(
-                        new
-                        {
-                            StudID = 1,
-                            SubID = 1,
-                            Grade = 85m
-                        },
-                        new
-                        {
-                            StudID = 2,
-                            SubID = 2,
-                            Grade = 90m
-                        },
-                        new
-                        {
-                            StudID = 3,
-                            SubID = 3,
-                            Grade = 88m
-                        },
-                        new
-                        {
-                            StudID = 4,
-                            SubID = 4,
-                            Grade = 91m
-                        },
-                        new
-                        {
-                            StudID = 5,
-                            SubID = 5,
-                            Grade = 87m
-                        });
                 });
 
             modelBuilder.Entity("SchoolProject.Data.Entities.Subject", b =>
@@ -597,43 +403,6 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasKey("SubID");
 
                     b.ToTable("Subjects");
-
-                    b.HasData(
-                        new
-                        {
-                            SubID = 1,
-                            Period = 60,
-                            SubjectNameAr = "برمجة",
-                            SubjectNameEn = "Programming"
-                        },
-                        new
-                        {
-                            SubID = 2,
-                            Period = 45,
-                            SubjectNameAr = "قواعد بيانات",
-                            SubjectNameEn = "Databases"
-                        },
-                        new
-                        {
-                            SubID = 3,
-                            Period = 40,
-                            SubjectNameAr = "شبكات",
-                            SubjectNameEn = "Networks"
-                        },
-                        new
-                        {
-                            SubID = 4,
-                            Period = 50,
-                            SubjectNameAr = "ذكاء صناعي",
-                            SubjectNameEn = "AI"
-                        },
-                        new
-                        {
-                            SubID = 5,
-                            Period = 55,
-                            SubjectNameAr = "أنظمة تشغيل",
-                            SubjectNameEn = "Operating Systems"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

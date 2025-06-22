@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Core.Bases;
 using SchoolProject.Data.Entities;
-using SchoolProject.Data.Enums;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Infrastructure.Abstract;
 using SchoolProject.Services.Abstract;
 
@@ -20,15 +20,19 @@ namespace SchoolProject.Services.Concrete
         }
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            return await _studentReposatory.GetAllStudents();
+            return await _studentReposatory.GetTableNoTracking()
+                                   .Where(x => !x.IsDeleted)
+                                   .ToListAsync();
         }
         public async Task<Student> GetStudentById_WithoutDepartmentDetails_Async(int id)
         {
-            return await _studentReposatory.GetByIdAsync(id);
+            return await _studentReposatory.GetTableNoTracking()
+                                           .Where(x => !x.IsDeleted && x.StudID == id)
+                                           .FirstOrDefaultAsync();
         }
         public async Task<Student> GetStudentByIdAsync(int id)
         {
-            var student = await _studentReposatory.GetTableAsTracking()
+            var student = await _studentReposatory.GetTableAsTracking().Where(x => x.IsDeleted == false)
                                                   .Include(x => x.Department)
                                                   .Where(x => x.StudID.Equals(id))
                                                   .FirstOrDefaultAsync();
@@ -37,7 +41,7 @@ namespace SchoolProject.Services.Concrete
         public async Task<ApiResponse<string>> AddStudentAsync(Student student)
         {
             var Students = await _studentReposatory
-                                  .GetTableNoTracking().ToListAsync();
+                                  .GetTableNoTracking().Where(x => x.IsDeleted == false).ToListAsync();
 
             var result = Students.FirstOrDefault(x => x.localize(x.NameAr, x.NameEn) == student.localize(student.NameAr, student.NameEn));
             if (result != null)
@@ -114,14 +118,14 @@ namespace SchoolProject.Services.Concrete
 
         public IQueryable<Student> GetStudentsListQuerable()
         {
-            return _studentReposatory.GetTableAsTracking()
+            return _studentReposatory.GetTableAsTracking().Where(x => x.IsDeleted == false)
                  .Include(x => x.Department)
                  .AsQueryable();
         }
 
         public IQueryable<Student> FilterStudentPaginatedQuerable(StudentOrderingEnum order, string search)
         {
-            var query = _studentReposatory.GetTableAsTracking()
+            var query = _studentReposatory.GetTableAsTracking().Where(x => x.IsDeleted == false)
                                           .Include(x => x.Department)
                                           .AsQueryable();
 
@@ -161,7 +165,7 @@ namespace SchoolProject.Services.Concrete
 
         public IQueryable<Student> GetStudentsByDepartmentQuerable(int id)
         {
-            return _studentReposatory.GetTableAsTracking()
+            return _studentReposatory.GetTableAsTracking().Where(x => x.IsDeleted == false)
                                      .Where(x => x.DID == id)
                                      .AsQueryable();
         }

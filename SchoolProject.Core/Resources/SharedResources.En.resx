@@ -216,4 +216,13 @@
   <data name="OldPasswordIncorrect" xml:space="preserve">
     <value>Old Password Is Incorrect</value>
   </data>
+  <data name="NotEmpty" xml:space="preserve">
+    <value>You must fill this field</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="PasswordNotCorrect" xml:space="preserve">
+    <value>Password is not correct</value>
+  </data>
 </root>

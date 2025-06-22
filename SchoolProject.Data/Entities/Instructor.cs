@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolProject.Data.Common;
+using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Data.Entities
 {
-    public class Instructor : GeneralLocalizableEntity
+    public class Instructor : GeneralLocalizableEntity, ISoftDeleteable
     {
         public Instructor()
         {
@@ -38,6 +39,8 @@ namespace SchoolProject.Data.Entities
 
         [InverseProperty("instructor")]
         public virtual ICollection<Ins_Subject> Ins_Subjects { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
     }
 
 }

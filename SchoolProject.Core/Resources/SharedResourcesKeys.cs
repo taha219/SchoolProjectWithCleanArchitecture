@@ -2,6 +2,10 @@
 {
     public class SharedResourcesKeys
     {
+        #region General
+        public const string NotEmpty = "NotEmpty";
+        public const string Required = "Required";
+        #endregion
         #region 
         public const string NameRequired = "NameRequired";
         public const string Namelength = "Namelength";
@@ -46,7 +50,7 @@
         public const string PasswordChangedSuccessfully = "PasswordChangedSuccessfully";
         public const string NewPassNotEqualConfirmPass = "NewPassNotEqualConfirmPass";
         public const string OldPasswordIncorrect = "OldPasswordIncorrect";
-
+        public const string PasswordNotCorrect = "PasswordNotCorrect";
         #endregion
 
     }

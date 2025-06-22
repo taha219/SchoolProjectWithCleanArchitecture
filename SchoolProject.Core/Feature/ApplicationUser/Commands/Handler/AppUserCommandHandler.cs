@@ -85,7 +85,6 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound] };
             }
         }
-
         public async Task<ApiResponse<string>> Handle(DeleteUserCommman request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(request.Id);
@@ -100,7 +99,6 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
             }
             return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.DeletedUser] };
         }
-
         public async Task<ApiResponse<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(request.UserId);

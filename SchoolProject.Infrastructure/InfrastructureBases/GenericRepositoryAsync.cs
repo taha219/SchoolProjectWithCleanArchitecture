@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Infrastructure.Data;
 
 namespace SchoolProject.Infrastructure.InfrastructureBases
@@ -62,9 +63,19 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
 
         public virtual async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            if (entity is ISoftDeleteable softDeleteable)
+            {
+                softDeleteable.Delete();
+                _dbContext.Entry(entity).State = EntityState.Modified;
+            }
+            else
+            {
+                _dbContext.Set<T>().Remove(entity);
+            }
+
             await _dbContext.SaveChangesAsync();
         }
+
         public virtual async Task DeleteRangeAsync(ICollection<T> entities)
         {
             foreach (var entity in entities)

@@ -1,4 +1,4 @@
-﻿namespace SchoolProject.Data.Enums
+﻿namespace SchoolProject.Data.Helpers
 {
     public enum
         StudentOrderingEnum

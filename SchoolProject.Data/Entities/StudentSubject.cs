@@ -18,5 +18,6 @@ namespace SchoolProject.Data.Entities
         [ForeignKey("SubID")]
         [InverseProperty("StudentSubjects")]
         public virtual Subject? Subject { get; set; }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SchoolProject.Core.Bases;
 using SchoolProject.Data.Entities;
-using SchoolProject.Data.Enums;
+using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Services.Abstract
 {
