@@ -35,7 +35,7 @@ namespace SchoolProject.Core.Feature.Student.Queries.Handlers
         public async Task<ApiResponse<List<GetStudentListResponse>>> Handle(GetStudentListQuery request, CancellationToken cancellationToken)
         {
             var result = await _studentService.GetAllStudentsAsync();
-            if (result == null)
+            if (result == null || result.Count == 0)
             {
                 return new ApiResponse<List<GetStudentListResponse>>
                 {

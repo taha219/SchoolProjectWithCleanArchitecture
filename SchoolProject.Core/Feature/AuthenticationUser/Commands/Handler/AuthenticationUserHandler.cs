@@ -54,7 +54,7 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
             return new ApiResponse<string>
             {
                 IsSuccess = true,
-                Message = _stringLocalizer[SharedResourcesKeys.PasswordChangedSuccessfully],
+                Message = _stringLocalizer[SharedResourcesKeys.SuccessSignIn],
                 Data = await _authenticationUserService.GenJWTToken(user)
             };
         }

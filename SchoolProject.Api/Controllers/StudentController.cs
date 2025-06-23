@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.Students.Commands.Models;
 using SchoolProject.Core.Feature.Students.Queries.Models;
@@ -21,6 +22,7 @@ namespace SchoolProject.Api.Controllers
             var result = await _mediator.Send(new GetStudentListQuery());
             return Ok(result);
         }
+        [Authorize]
         [HttpGet("PaginatedList")]
         public async Task<IActionResult> GetAllStudentsWith([FromQuery] GetStudentPaginatedListQuery query)
         {

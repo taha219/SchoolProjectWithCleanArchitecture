@@ -53,5 +53,8 @@
         public const string PasswordNotCorrect = "PasswordNotCorrect";
         #endregion
 
+        #region Authenticaion
+        public const string SuccessSignIn = "SuccessSignIn";
+        #endregion
     }
 }

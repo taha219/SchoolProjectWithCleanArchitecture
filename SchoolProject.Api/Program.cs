@@ -20,8 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 });
-builder.Services.AddSwaggerGenJwtAuth();
-builder.Services.AddCustomJwtAuth(builder.Configuration);
+
 builder.Services.AddScoped<SoftDeleteInterceptor>();
 
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
@@ -36,10 +35,12 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 // Configure Identity
 // note=> add identity register usermanger + role manager + sign in manager but if you use identity core it will not include sign in manager 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
-
+builder.Services.AddSwaggerGenJwtAuth();
+builder.Services.AddCustomJwtAuth(builder.Configuration);
+/////////////////////////////////////////////////////////
 
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()
@@ -74,11 +75,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My School API v1");
-        c.RoutePrefix = string.Empty;
-    });
+    app.UseSwaggerUI();
 }
 
 #region Localization Middleware
@@ -90,6 +87,7 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -7,23 +7,17 @@ namespace SchoolProject.Data.Helpers
     {
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
-            Console.WriteLine("🔥 Interceptor Triggered");
-
             if (eventData.Context is null)
                 return result;
 
             foreach (var entry in eventData.Context.ChangeTracker.Entries())
             {
-                Console.WriteLine($"➡️ Entry: {entry.Entity.GetType().Name}, State: {entry.State}");
+                if (entry is not { State: EntityState.Deleted, Entity: ISoftDeleteable entity })
+                    continue;
+                entry.State = EntityState.Modified;
 
-                if (entry.State == EntityState.Deleted && entry.Entity is ISoftDeleteable entity)
-                {
-                    Console.WriteLine("🛑 Converting to soft delete");
-                    entity.Delete();
-                    entry.State = EntityState.Modified;
-                }
+                entity.Delete();
             }
-
             return result;
         }
     }
