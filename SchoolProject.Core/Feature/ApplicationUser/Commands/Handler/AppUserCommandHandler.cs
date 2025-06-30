@@ -7,7 +7,7 @@ using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.ApplicationUser.Command.Models;
 using SchoolProject.Core.Feature.ApplicationUser.Commands.Models;
 using SchoolProject.Core.Resources;
-using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Identity;
 
 namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 {

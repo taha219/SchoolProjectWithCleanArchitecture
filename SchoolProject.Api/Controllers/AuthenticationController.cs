@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.AuthenticationUser.Commands.Models;
+using SchoolProject.Core.Features.Authentication.Queries.Models;
 
 namespace SchoolProject.Api.Controllers
 {
@@ -18,6 +19,24 @@ namespace SchoolProject.Api.Controllers
         {
             var result = await _mediator.Send(command);
 
+            if (!result.IsSuccess)
+                return Conflict(result);
+
+            return Ok(result);
+        }
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+                return Conflict(result);
+
+            return Ok(result);
+        }
+        [HttpGet("ValidateToken")]
+        public async Task<IActionResult> ValidateToken([FromQuery] AuthorizeUserQuery query)
+        {
+            var result = await _mediator.Send(query);
             if (!result.IsSuccess)
                 return Conflict(result);
 

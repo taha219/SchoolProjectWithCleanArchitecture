@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using SchoolProject.Core.Bases;
+using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Models
 {
-    public class SignInCommand : IRequest<ApiResponse<string>>
+    public class SignInCommand : IRequest<ApiResponse<JWTAuthResult>>
     {
         public string UserNameOrEmail { get; set; }
         public string Password { get; set; }

@@ -1,10 +1,11 @@
+using System.Collections.Concurrent;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SchoolProject.Core;
-using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
@@ -20,6 +21,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 });
+var jwtSettings = new JwtSettings();
+builder.Configuration.GetSection("JwtSettings").Bind(jwtSettings);
+builder.Services.AddSingleton(jwtSettings);
 
 builder.Services.AddScoped<SoftDeleteInterceptor>();
 
@@ -33,14 +37,16 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
 
 // Configure Identity
-// note=> add identity register usermanger + role manager + sign in manager but if you use identity core it will not include sign in manager 
+// *Note=> add identity register usermanager + role_manager + signin_manager , but if you use identity core it will not include only signin_manager 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+// notice that you must add these two lines after configuring identity
 builder.Services.AddSwaggerGenJwtAuth();
 builder.Services.AddCustomJwtAuth(builder.Configuration);
 /////////////////////////////////////////////////////////
+builder.Services.AddSingleton<ConcurrentDictionary<string, RefreshToken>>();
 
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()

@@ -7,7 +7,7 @@ using SchoolProject.Core.Feature.ApplicationUser.Queries.Models;
 using SchoolProject.Core.Feature.ApplicationUser.Queries.Results;
 using SchoolProject.Core.Resources;
 using SchoolProject.Core.Wrappers;
-using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Identity;
 
 namespace SchoolProject.Core.Feature.ApplicationUser.Queries.Handler
 {

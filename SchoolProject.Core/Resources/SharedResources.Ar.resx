@@ -228,4 +228,10 @@
   <data name="SuccessSignIn" xml:space="preserve">
     <value>تم تسجيل الدخول بنجاح</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>غير موجود</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>تم بنجاح</value>
+  </data>
 </root>

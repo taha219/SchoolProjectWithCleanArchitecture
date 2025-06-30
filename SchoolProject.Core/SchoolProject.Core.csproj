@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Feature\AuthenticationUser\Queries\" />
+    <Folder Include="Feature\AuthenticationUser\Queries\Validators\" />
     <Folder Include="Feature\Department\Commands\" />
   </ItemGroup>
 

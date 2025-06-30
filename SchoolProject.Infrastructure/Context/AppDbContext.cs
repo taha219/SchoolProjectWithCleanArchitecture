@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Identity;
 
 namespace SchoolProject.Infrastructure.Data
 {
@@ -17,6 +18,8 @@ namespace SchoolProject.Infrastructure.Data
         public DbSet<StudentSubject> StudentSubjects { get; set; }
         public DbSet<DepartmentSubject> DepartmentSubjects { get; set; }
         public DbSet<Ins_Subject> InsSubjects { get; set; }
+        public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,13 +84,13 @@ namespace SchoolProject.Infrastructure.Data
             //);
 
             // Students
-            modelBuilder.Entity<Student>().HasData(
-                new Student { StudID = 1, NameAr = "علي", NameEn = "Ali", DID = 1 },
-                new Student { StudID = 2, NameAr = "مريم", NameEn = "Mariam", DID = 2 },
-                new Student { StudID = 3, NameAr = "يوسف", NameEn = "Youssef", DID = 3 },
-                new Student { StudID = 4, NameAr = "سلمى", NameEn = "Salma", DID = 4 },
-                new Student { StudID = 5, NameAr = "حسن", NameEn = "Hassan", DID = 5 }
-            );
+            //modelBuilder.Entity<Student>().HasData(
+            //    new Student { StudID = 1, NameAr = "علي", NameEn = "Ali", DID = 1 },
+            //    new Student { StudID = 2, NameAr = "مريم", NameEn = "Mariam", DID = 2 },
+            //    new Student { StudID = 3, NameAr = "يوسف", NameEn = "Youssef", DID = 3 },
+            //    new Student { StudID = 4, NameAr = "سلمى", NameEn = "Salma", DID = 4 },
+            //    new Student { StudID = 5, NameAr = "حسن", NameEn = "Hassan", DID = 5 }
+            //);
 
             //// DepartmentSubjects
             //modelBuilder.Entity<DepartmentSubject>().HasData(

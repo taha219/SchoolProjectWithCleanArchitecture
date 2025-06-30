@@ -3,10 +3,13 @@
     public class SharedResourcesKeys
     {
         #region General
+        public const string NotFound = "NotFound";
+        public const string Success = "Success";
         public const string NotEmpty = "NotEmpty";
         public const string Required = "Required";
         #endregion
-        #region 
+
+        #region validation messages
         public const string NameRequired = "NameRequired";
         public const string Namelength = "Namelength";
         public const string AddressRequired = "AddressRequired";
@@ -17,7 +20,7 @@
         public const string EmailNotVaild = "EmailNotVaild";
         public const string PasswordNotValid = "PasswordNotValid";
         public const string PasswordRequired = "PasswordRequired";
-        #endregion
+        #endregion 
 
         #region Student
         public const string NotFoundStudent = "NotFoundStudent";
@@ -55,6 +58,11 @@
 
         #region Authenticaion
         public const string SuccessSignIn = "SuccessSignIn";
+        public const string RefreshTokenIsExpired = "RefreshTokenIsExpired";
+        public const string RefreshTokenIsNotFound = "RefreshTokenIsNotFound";
+        public const string TokenIsNotExpired = "TokenIsNotExpired";
+        public const string AlgorithmIsWrong = "AlgorithmIsWrong";
+        public const string TokenIsExpired = "TokenIsExpired";
         #endregion
     }
 }
