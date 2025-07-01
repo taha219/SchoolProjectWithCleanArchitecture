@@ -116,7 +116,8 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
             return new ApiResponse<JWTAuthResult>
             {
                 IsSuccess = true,
-                Message = _stringLocalizer[SharedResourcesKeys.Success]
+                Message = _stringLocalizer[SharedResourcesKeys.Success],
+                Data = result
             };
         }
     }

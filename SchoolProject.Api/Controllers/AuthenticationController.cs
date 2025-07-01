@@ -15,7 +15,7 @@ namespace SchoolProject.Api.Controllers
             _mediator = mediator;
         }
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromForm] SignInCommand command)
+        public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -25,7 +25,7 @@ namespace SchoolProject.Api.Controllers
             return Ok(result);
         }
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
         {
             var result = await _mediator.Send(command);
             if (!result.IsSuccess)

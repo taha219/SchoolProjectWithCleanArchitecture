@@ -234,4 +234,19 @@
   <data name="Success" xml:space="preserve">
     <value>Success</value>
   </data>
+  <data name="RefreshTokenIsExpired" xml:space="preserve">
+    <value>The activation code you are using has expired.</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>The activation code you are using does not exist.</value>
+  </data>
+  <data name="TokenIsNotExpired" xml:space="preserve">
+    <value>The access code you are using has not expired.</value>
+  </data>
+  <data name="AlgorithmIsWrong" xml:space="preserve">
+    <value>There is an error in the algorithm used for encryption.</value>
+  </data>
+  <data name="TokenIsExpired" xml:space="preserve">
+    <value>The access code you are using has expired.</value>
+  </data>
 </root>
