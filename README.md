@@ -1,59 +1,69 @@
-# ✅ Project Features
+# 🎓 SchoolProject API
 
-* ✅ **Clean Architecture**  
-  Used to separate responsibilities across different layers (Data, Core, Infrastructure, and Services).
+An enterprise-grade ASP.NET Core Web API built with Clean Architecture, featuring CQRS, Identity, JWT, Localization, and more.
 
-* ✅ **CQRS (Command Query Responsibility Segregation) Design Pattern**  
-  Separates read (Queries) and write (Commands) operations for better scalability and testability.
+---
 
-* ✅ **MediatR**  
-  Helps implement the CQRS pattern and decouples components by handling requests through mediators.
+## ✅ Key Features
 
-* ✅ **AutoMapper**  
-  Simplifies object-to-object mapping, especially between Entities and DTOs.
+✅ **Clean Architecture**  
+Used to separate responsibilities across different layers:  
+- **Data** (Entities, Migrations)  
+- **Core** (CQRS, Mapping, Validators)  
+- **Infrastructure** (Repositories, DBContext, Identity)  
+- **Service** (Business logic and integrations)  
+- **API** (Controllers)
 
-* ✅ **Entity Framework Core**  
-  ORM used to interact with the database efficiently and in a type-safe manner.
+✅ **CQRS (Command Query Responsibility Segregation) Design Pattern**  
+Separates read (**Queries**) and write (**Commands**) operations for better scalability, separation of concerns, and testability.  
+Each entity/module has its own folder structure for `Commands`, `Queries`, `Handlers`, `Validators`, etc.
 
-* ✅ **Generic Repository Pattern**  
-  Reusable data access logic to promote clean and maintainable code.
+✅ **MediatR**  
+Used for dispatching commands and queries through handler pipelines with minimal coupling.
 
-* ✅ **Soft Delete using Interceptors**  
-  Intercepts `EntityState.Deleted` and converts it to soft delete (`IsDeleted = true`, `DateDeleted = now`).  
-  Implemented via a custom `SaveChangesInterceptor`.
+✅ **AutoMapper with Mapping Profiles**  
+Centralized mapping configurations between entities and DTOs using clean Mapping Profiles.  
+Improves reusability and clarity of object transformation logic.
+**Partial Classes for Separation**  
 
-* ✅ **ASP.NET Core Identity with Roles**  
-  Added identity management for users using `AppUser`, including roles (`Admin`, `Student`, etc.).  
-  Supports user authentication, role-based authorization, and token generation.
+✅ **Entity Framework Core**  
+ORM used to interact with the database in a performant and type-safe manner.
 
-* ✅ **Authorization Policies**  
-  Configured authorization policies to restrict access to endpoints based on user roles or claims using `[Authorize(Policy = "...")]`.
+✅ **Generic Repository Pattern**  
+Encapsulates data access logic with reusable, strongly typed repository methods.
 
-* ✅ **JWT Authentication Setup**  
-  Secure APIs using JWT bearer tokens.  
-  Configured token validation parameters, token creation, and role-based access.  
-  Integrated with Swagger for testing secured endpoints.
+✅ **Soft Delete using EF Core Interceptors**  
+Handles logical deletes via SaveChangesInterceptor.  
+Intercepts `EntityState.Deleted` and sets `IsDeleted = true` and `DateDeleted = now`.
 
-* ✅ **Swagger + Accept-Language Header**  
-  Swagger UI is configured with JWT support and an `Accept-Language` header.  
-  This enables testing localization directly through Swagger (e.g., switching between Arabic and English).
+✅ **ASP.NET Core Identity with Roles**  
+Identity-based user management using `AppUser` entity.  
+Supports role-based access control (e.g., Admin, Student, HR, etc.).
 
-* ✅ **Pagination Helper**  
-  Implements efficient paging in queries with a consistent structure with ordering and search.
+✅ **Authorization Policies**  
+Custom policies defined for fine-grained control using `[Authorize(Policy = "OnlyAdmins")]`.
 
-* ✅ **ApiResponse & Wrapper Classes**  
-  Provides standardized API responses with success status and messages.
+✅ **JWT Authentication with Refresh Token**  
+Secures API with JWT Bearer Tokens.  
+Implements access token + refresh token logic with:
+- Token validation parameters
+- Token renewal endpoint
+- Secure refresh token storage and validation
+- Swagger integration for testing
 
-* ✅ **Expression Trees (LINQ Expressions)**  
-  Used for efficient projection of selected fields directly from the database.
+✅ **Swagger + Accept-Language Header**  
+Configured to support:
+- JWT authentication
+- Language switching using `Accept-Language` header (e.g., `ar-EG`, `en-US`)
 
-* ✅ **Dependency Injection**  
-  For better modularity, testing, and separation of concerns.
+✅ **Pagination Helper**  
+Supports pagination, sorting, and searching with a consistent response shape.
 
-* ✅ **FluentValidation**  
-  For validating incoming data in command models.
-
-* ✅ **Localization**  
-  Supports both Arabic and English languages with `RequestLocalizationOptions` and shared resource files.
-
-
+✅ **ApiResponse & Wrapper Classes**  
+Standardizes all API responses with consistent structure:
+```json
+{
+  "isSuccess": true,
+  "message": "Operation successful",
+  "data": { ... }
+}
