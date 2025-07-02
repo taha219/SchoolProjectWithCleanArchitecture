@@ -64,5 +64,12 @@
         public const string AlgorithmIsWrong = "AlgorithmIsWrong";
         public const string TokenIsExpired = "TokenIsExpired";
         #endregion
+
+        #region Role
+        public const string AddRoleFailed = "AddRoleFailed";
+        public const string RoleAddedSuccessfully = "RoleAddedSuccessfully";
+        public const string RoleAlreadyExists = "RoleAlreadyExists";
+        public const string InvalidRoleName = "InvalidRoleName";
+        #endregion
     }
 }

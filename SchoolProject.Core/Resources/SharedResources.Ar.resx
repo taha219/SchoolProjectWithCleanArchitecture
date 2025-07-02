@@ -249,4 +249,16 @@
   <data name="TokenIsExpired" xml:space="preserve">
     <value>رمز الوصول الذي تستخدمه منتهي</value>
   </data>
+  <data name="AddRoleFailed" xml:space="preserve">
+    <value>تعذر إضافة الدور</value>
+  </data>
+  <data name="RoleAddedSuccessfully" xml:space="preserve">
+    <value>تم إضافة الدور بنجاح</value>
+  </data>
+  <data name="RoleAlreadyExists" xml:space="preserve">
+    <value>الدور موجود بالفعل</value>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>اسم الدور غير سليم</value>
+  </data>
 </root>

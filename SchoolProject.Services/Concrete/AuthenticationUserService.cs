@@ -94,11 +94,15 @@ namespace SchoolProject.Service.Implementations
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.NameIdentifier,user.UserName),
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(nameof(UserClaimsModel.PhoneNumber), user.PhoneNumber),
-                new Claim(nameof(UserClaimsModel.Id), user.Id.ToString())
+                new Claim(nameof(UserClaimsModel.Id), user.Id)
             };
-
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
             var userClaims = await _userManager.GetClaimsAsync(user);
             claims.AddRange(userClaims);
             return claims;

@@ -25,11 +25,11 @@ namespace TestRESTAPI.Extentions
                 o.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = configuration["JWT:Issuer"],
+                    ValidIssuer = configuration["jwtSettings:Issuer"],
                     ValidateAudience = true,
-                    ValidAudience = configuration["JWT:Audience"],
+                    ValidAudience = configuration["jwtSettings:Audience"],
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwtSettings:SecretKey"])),
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
