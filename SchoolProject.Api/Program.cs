@@ -9,6 +9,7 @@ using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
+using SchoolProject.Infrastructure.Seeder;
 using SchoolProject.Services;
 using TestRESTAPI.Extentions;
 
@@ -21,8 +22,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 });
+
 var jwtSettings = new JwtSettings();
-builder.Configuration.GetSection("JwtSettings").Bind(jwtSettings);
+builder.Configuration.GetSection("jwtSettings").Bind(jwtSettings);
 builder.Services.AddSingleton(jwtSettings);
 
 builder.Services.AddScoped<SoftDeleteInterceptor>();
@@ -75,8 +77,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 #endregion
 
+// seeding roles and admin user if there is no roles or users in the database
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await RoleSeeder.SeedAsync(roleManager);
+    await UserSeeder.SeedAsync(userManager);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
