@@ -261,4 +261,13 @@
   <data name="InvalidRoleName" xml:space="preserve">
     <value>اسم الدور غير سليم</value>
   </data>
+  <data name="GetAllRoles" xml:space="preserve">
+    <value>تم إرجاع كل الأدوار بنجاح</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>هذا الدور غير موجود</value>
+  </data>
+  <data name="GetRoleById" xml:space="preserve">
+    <value>تم إرجاع الدور بنجاح</value>
+  </data>
 </root>

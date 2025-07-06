@@ -261,4 +261,13 @@
   <data name="InvalidRoleName" xml:space="preserve">
     <value>Invaild role name</value>
   </data>
+  <data name="GetAllRoles" xml:space="preserve">
+    <value>Roles Retrieved Successfully</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Role not found</value>
+  </data>
+  <data name="GetRoleById" xml:space="preserve">
+    <value>Role  Retrieved Successfully</value>
+  </data>
 </root>

@@ -47,6 +47,7 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
             }
             var mappedUser = _mapper.Map<AppUser>(request);
             IdentityResult isSuccess = await _userManager.CreateAsync(mappedUser, request.Password);
+            await _userManager.AddToRoleAsync(mappedUser, request.Role);
             if (!isSuccess.Succeeded)
             {
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };

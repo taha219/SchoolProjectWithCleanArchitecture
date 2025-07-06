@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace SchoolProject.Infrastructure.Seeder
 {
@@ -7,7 +6,7 @@ namespace SchoolProject.Infrastructure.Seeder
     {
         public static async Task SeedAsync(RoleManager<IdentityRole> _roleManager)
         {
-            var rolesCount = await _roleManager.Roles.CountAsync();
+            var rolesCount = _roleManager.Roles.Count();
             if (rolesCount <= 0)
             {
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Services.Concrete
@@ -22,6 +23,15 @@ namespace SchoolProject.Services.Concrete
             identityRole.Name = roleName;
             var result = await _roleManager.CreateAsync(identityRole);
             return result.Succeeded ? "success" : "failed";
+        }
+
+        public async Task<List<IdentityRole>> GetRolesListAsync()
+        {
+            return await _roleManager.Roles.ToListAsync();
+        }
+        public async Task<IdentityRole> GetRoleByIdAsync(string roleId)
+        {
+            return await _roleManager.FindByIdAsync(roleId);
         }
     }
 }

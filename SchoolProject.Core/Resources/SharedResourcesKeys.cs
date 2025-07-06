@@ -70,6 +70,9 @@
         public const string RoleAddedSuccessfully = "RoleAddedSuccessfully";
         public const string RoleAlreadyExists = "RoleAlreadyExists";
         public const string InvalidRoleName = "InvalidRoleName";
+        public const string GetAllRoles = "GetAllRoles";
+        public const string RoleNotFound = "RoleNotFound";
+        public const string GetRoleById = "GetRoleById";
         #endregion
     }
 }

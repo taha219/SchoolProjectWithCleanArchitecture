@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using SchoolProject.Data.Entities.Identity;
 
 namespace SchoolProject.Infrastructure.Seeder
@@ -9,7 +7,7 @@ namespace SchoolProject.Infrastructure.Seeder
     {
         public static async Task SeedAsync(UserManager<AppUser> _userManager)
         {
-            var usersCount = await _userManager.Users.CountAsync();
+            var usersCount = _userManager.Users.Count();
             if (usersCount <= 0)
             {
                 var defaultuser = new AppUser()

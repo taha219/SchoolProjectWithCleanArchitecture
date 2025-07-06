@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.Authorization.Commands.Models;
+using SchoolProject.Core.Feature.Authorization.Queries.Models;
 
 namespace SchoolProject.Api.Controllers
 {
@@ -24,6 +25,19 @@ namespace SchoolProject.Api.Controllers
             if (result.IsSuccess)
                 return Ok(new { message = result.Message });
             return BadRequest(new { message = result.Message });
+        }
+        [HttpGet("RolesList")]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            var result = await _mediator.Send(new GetRolesQuery());
+            return Ok(result);
+
+        }
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetRole([FromRoute] string id)
+        {
+            var result = await _mediator.Send(new GetRoleByIdQuery(id));
+            return Ok(result);
         }
     }
 }
