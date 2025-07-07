@@ -73,6 +73,8 @@
         public const string GetAllRoles = "GetAllRoles";
         public const string RoleNotFound = "RoleNotFound";
         public const string GetRoleById = "GetRoleById";
+        public const string GetUserWithRoles = "GetUserWithRoles";
+
         #endregion
     }
 }

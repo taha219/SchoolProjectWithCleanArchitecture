@@ -270,4 +270,7 @@
   <data name="GetRoleById" xml:space="preserve">
     <value>Role  Retrieved Successfully</value>
   </data>
+  <data name="GetUserWithRoles" xml:space="preserve">
+    <value>User with his roles  Retrieved Successfully</value>
+  </data>
 </root>

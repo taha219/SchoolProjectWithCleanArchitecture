@@ -1,25 +1,34 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.Authorization.Queries.Models;
 using SchoolProject.Core.Feature.Authorization.Queries.Results;
 using SchoolProject.Core.Resources;
+using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Authorization.Queries.Handler
 {
     public class RoleQueryHandler : IRequestHandler<GetRolesQuery, ApiResponse<List<GetRolesListResponse>>>,
-                                    IRequestHandler<GetRoleByIdQuery, ApiResponse<GetRoleByIdResponse>>
+                                    IRequestHandler<GetRoleByIdQuery, ApiResponse<GetRoleByIdResponse>>,
+                                    IRequestHandler<ManageUserRolesQuery, ApiResponse<ManageUserRolesResult>>
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
-        public RoleQueryHandler(IAuthorizationService authorizationService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer)
+        private readonly UserManager<AppUser> _userManager;
+        public RoleQueryHandler(IAuthorizationService authorizationService,
+                                IMapper mapper,
+                                IStringLocalizer<SharedResources> stringLocalizer,
+                                UserManager<AppUser> userManager)
         {
             _authorizationService = authorizationService;
             _mapper = mapper;
             _stringLocalizer = stringLocalizer;
+            _userManager = userManager;
         }
         public async Task<ApiResponse<List<GetRolesListResponse>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
@@ -50,6 +59,23 @@ namespace SchoolProject.Core.Feature.Authorization.Queries.Handler
                 IsSuccess = true,
                 Data = mappedrole,
                 Message = _stringLocalizer[SharedResourcesKeys.GetRoleById]
+            };
+        }
+        public async Task<ApiResponse<ManageUserRolesResult>> Handle(ManageUserRolesQuery request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+            if (user == null)
+                return new ApiResponse<ManageUserRolesResult>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.UserNotFound]
+                };
+            var result = await _authorizationService.ManageUserRolesAsync(user);
+            return new ApiResponse<ManageUserRolesResult>
+            {
+                IsSuccess = true,
+                Message = _stringLocalizer[SharedResourcesKeys.GetUserWithRoles],
+                Data = result,
             };
         }
     }

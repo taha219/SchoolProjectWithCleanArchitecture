@@ -270,4 +270,7 @@
   <data name="GetRoleById" xml:space="preserve">
     <value>تم إرجاع الدور بنجاح</value>
   </data>
+  <data name="GetUserWithRoles" xml:space="preserve">
+    <value>تم إرجاع المستخدم بأدواره بنجاح</value>
+  </data>
 </root>

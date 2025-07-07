@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.Authorization.Commands.Models;
 using SchoolProject.Core.Feature.Authorization.Queries.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SchoolProject.Api.Controllers
 {
@@ -33,11 +34,18 @@ namespace SchoolProject.Api.Controllers
             return Ok(result);
 
         }
-        [HttpGet("GetById/{id}")]
+        [HttpGet("GetRoleById/{id}")]
         public async Task<IActionResult> GetRole([FromRoute] string id)
         {
             var result = await _mediator.Send(new GetRoleByIdQuery(id));
             return Ok(result);
+        }
+        [SwaggerOperation(Summary = " ادارة صلاحيات المستخدمين", OperationId = "ManageUserRoles")]
+        [HttpGet("ManageUserRoles/{userId}")]
+        public async Task<IActionResult> ManageUserRoles([FromRoute] string userId)
+        {
+            var response = await _mediator.Send(new ManageUserRolesQuery(userId));
+            return Ok(response);
         }
     }
 }
