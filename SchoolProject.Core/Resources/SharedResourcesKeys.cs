@@ -74,6 +74,10 @@
         public const string RoleNotFound = "RoleNotFound";
         public const string GetRoleById = "GetRoleById";
         public const string GetUserWithRoles = "GetUserWithRoles";
+        public const string UserRolesUpdated = "UserRolesUpdated";
+        public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles";
+        public const string FailedToAddNewRoles = "FailedToAddNewRoles";
+        public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles";
 
         #endregion
     }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities.Identity;
-using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Requests;
+using SchoolProject.Data.Results;
+using SchoolProject.Infrastructure.Data;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Services.Concrete
@@ -10,10 +12,12 @@ namespace SchoolProject.Services.Concrete
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        public AuthorizationService(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
+        private readonly AppDbContext _dbContext;
+        public AuthorizationService(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, AppDbContext dbContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _dbContext = dbContext;
         }
         public async Task<string> AddRoleAsync(string roleName)
         {
@@ -61,6 +65,38 @@ namespace SchoolProject.Services.Concrete
             }
             response.userRoles = rolesList;
             return response;
+        }
+
+        public async Task<string> UpdateUserRolesAsync(UpdateUserRolesRequest request)
+        {
+            var transact = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null) return "UserNotFound";
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var removeOldRoles = await _userManager.RemoveFromRolesAsync(user, userRoles);
+                if (!removeOldRoles.Succeeded) return "FailedToRemoveOldRoles";
+
+                var newRoles = request.userRoles.Where(r => r.HasRole).Select(r => r.Name).ToList();
+                var addNewRoles = await _userManager.AddToRolesAsync(user, newRoles);
+                if (!addNewRoles.Succeeded)
+                {
+                    return "FailedToAddNewRoles";
+                }
+                else
+                {
+                    await transact.CommitAsync();
+                    return "Success";
+                }
+            }
+            catch (Exception ex)
+            {
+                await transact.RollbackAsync();
+                return "FailedToUpdateUserRoles";
+            }
         }
     }
 }

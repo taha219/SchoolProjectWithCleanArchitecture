@@ -273,4 +273,16 @@
   <data name="GetUserWithRoles" xml:space="preserve">
     <value>تم إرجاع المستخدم بأدواره بنجاح</value>
   </data>
+  <data name="UserRolesUpdated" xml:space="preserve">
+    <value>تم تحديث أدوار المستخدم بنجاح</value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>حدث خطأ أثناء تعديل أدوار المستخدم</value>
+  </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة أدوار جديدة للمستخدم</value>
+  </data>
+  <data name="FailedToRemoveOldRoles" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف أدوار المستخدم</value>
+  </data>
 </root>
