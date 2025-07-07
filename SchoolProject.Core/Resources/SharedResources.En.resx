@@ -273,4 +273,16 @@
   <data name="GetUserWithRoles" xml:space="preserve">
     <value>User with his roles  Retrieved Successfully</value>
   </data>
+  <data name="UserRolesUpdated" xml:space="preserve">
+    <value>User roles updated successfully</value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>Failed to update user roles</value>
+  </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>Failed to add new roles to user</value>
+  </data>
+  <data name="FailedToRemoveOldRoles" xml:space="preserve">
+    <value>Failed to delete user roles</value>
+  </data>
 </root>

@@ -7,7 +7,7 @@ using SchoolProject.Core.Feature.Authorization.Queries.Models;
 using SchoolProject.Core.Feature.Authorization.Queries.Results;
 using SchoolProject.Core.Resources;
 using SchoolProject.Data.Entities.Identity;
-using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Results;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Authorization.Queries.Handler
