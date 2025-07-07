@@ -249,4 +249,28 @@
   <data name="TokenIsExpired" xml:space="preserve">
     <value>The access code you are using has expired.</value>
   </data>
+  <data name="AddRoleFailed" xml:space="preserve">
+    <value>Failed to add role</value>
+  </data>
+  <data name="RoleAddedSuccessfully" xml:space="preserve">
+    <value>Role added successfully</value>
+  </data>
+  <data name="RoleAlreadyExists" xml:space="preserve">
+    <value>Role is already exists</value>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>Invaild role name</value>
+  </data>
+  <data name="GetAllRoles" xml:space="preserve">
+    <value>Roles Retrieved Successfully</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Role not found</value>
+  </data>
+  <data name="GetRoleById" xml:space="preserve">
+    <value>Role  Retrieved Successfully</value>
+  </data>
+  <data name="GetUserWithRoles" xml:space="preserve">
+    <value>User with his roles  Retrieved Successfully</value>
+  </data>
 </root>

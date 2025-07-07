@@ -13,8 +13,7 @@ using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Student.Queries.Handlers
 {
-    public class StudentQueryHandler :
-                                       IRequestHandler<GetStudentListQuery, ApiResponse<List<GetStudentListResponse>>>,
+    public class StudentQueryHandler : IRequestHandler<GetStudentListQuery, ApiResponse<List<GetStudentListResponse>>>,
                                        IRequestHandler<GetStudentByIdQuery, ApiResponse<GetSingleStudentResponse>>,
                                        IRequestHandler<GetStudentPaginatedListQuery, PaginatedResult<GetStudentPaginatedListResponse>>
 

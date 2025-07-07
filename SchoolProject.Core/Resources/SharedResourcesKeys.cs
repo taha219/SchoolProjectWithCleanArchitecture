@@ -64,5 +64,17 @@
         public const string AlgorithmIsWrong = "AlgorithmIsWrong";
         public const string TokenIsExpired = "TokenIsExpired";
         #endregion
+
+        #region Role
+        public const string AddRoleFailed = "AddRoleFailed";
+        public const string RoleAddedSuccessfully = "RoleAddedSuccessfully";
+        public const string RoleAlreadyExists = "RoleAlreadyExists";
+        public const string InvalidRoleName = "InvalidRoleName";
+        public const string GetAllRoles = "GetAllRoles";
+        public const string RoleNotFound = "RoleNotFound";
+        public const string GetRoleById = "GetRoleById";
+        public const string GetUserWithRoles = "GetUserWithRoles";
+
+        #endregion
     }
 }
