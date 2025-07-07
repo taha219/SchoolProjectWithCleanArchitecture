@@ -38,7 +38,7 @@ Intercepts `EntityState.Deleted` and sets `IsDeleted = true` and `DateDeleted = 
 
 ✅ **ASP.NET Core Identity with Roles**  
 Identity-based user management using `AppUser` entity.  
-Supports role-based access control (e.g., Admin, Student, HR, etc.).
+Supports role-based access control (e.g., Admin, User, Manager, etc.).
 
 ✅ **Authorization Policies**  
 Custom policies defined for fine-grained control using `[Authorize(Policy = "OnlyAdmins")]`.
