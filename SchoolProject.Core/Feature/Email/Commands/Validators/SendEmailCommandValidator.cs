@@ -16,13 +16,13 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Validators
         {
             _stringLocalizer = stringLocalizer;
 
-            RuleFor(x => x.UserName).NotEmpty()
-               .WithMessage(_stringLocalizer[SharedResourcesKeys.NameRequired])
-               .MaximumLength(20)
-               .WithMessage(_stringLocalizer[SharedResourcesKeys.Namelength]);
+            RuleFor(x => x.Messege).NotEmpty()
+               .WithMessage(_stringLocalizer[SharedResourcesKeys.MessegeRequired]);
+
 
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.EmailRequired])
+                .NotEmpty()
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.EmailRequired])
                 .Matches(@"^[^@\s]+@(gmail\.com|outlook\.com|yahoo\.com)$").WithMessage(_stringLocalizer[SharedResourcesKeys.EmailNotVaild]);
 
         }

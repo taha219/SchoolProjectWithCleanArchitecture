@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.Email.Commands.Models;
 using SchoolProject.Core.Resources;
+using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.Email.Commands.Handler
 {
@@ -17,9 +18,12 @@ namespace SchoolProject.Core.Feature.Email.Commands.Handler
             _emailsService = emailsService;
         }
 
-        public Task<ApiResponse<string>> Handle(SendEmailCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<string>> Handle(SendEmailCommand request, CancellationToken cancellationToken)
         {
-
+            var response = await _emailsService.SendEmail(request.Email, request.Messege, null);
+            if (response == "Success")
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.EmailSent] };
+            return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.SendEmailFailed] };
         }
     }
 }

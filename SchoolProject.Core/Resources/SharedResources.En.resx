@@ -285,4 +285,13 @@
   <data name="FailedToRemoveOldRoles" xml:space="preserve">
     <value>Failed to delete user roles</value>
   </data>
+  <data name="SendEmailFailed" xml:space="preserve">
+    <value>Send Email Failed</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Email Sent</value>
+  </data>
+  <data name="MessegeRequired" xml:space="preserve">
+    <value>Email messege is required</value>
+  </data>
 </root>

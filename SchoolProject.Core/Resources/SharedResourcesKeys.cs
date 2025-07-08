@@ -80,5 +80,11 @@
         public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles";
 
         #endregion
+
+        #region        
+        public const string SendEmailFailed = "SendEmailFailed";
+        public const string EmailSent = "EmailSent";
+        public const string MessegeRequired = "MessegeRequired";
+        #endregion
     }
 }

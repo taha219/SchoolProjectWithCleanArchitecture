@@ -16,7 +16,7 @@ namespace SchoolProject.Services.Concrete
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.gmail.com", 465, true);
-                    client.Authenticate("to44327@gmail.com", );
+                    client.Authenticate("to44327@gmail.com", "dotl odqx idyu dncb");
                     var bodybuilder = new BodyBuilder
                     {
                         HtmlBody = $"{Message}",

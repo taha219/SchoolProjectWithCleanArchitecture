@@ -285,4 +285,13 @@
   <data name="FailedToRemoveOldRoles" xml:space="preserve">
     <value>حدث خطأ أثناء حذف أدوار المستخدم</value>
   </data>
+  <data name="SendEmailFailed" xml:space="preserve">
+    <value>حدث خطأ أثناء إرسال الايميل</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>تم إرسال الايميل بنجاح</value>
+  </data>
+  <data name="MessegeRequired" xml:space="preserve">
+    <value>يجب إدخال رسالة أو نص الايميل</value>
+  </data>
 </root>
