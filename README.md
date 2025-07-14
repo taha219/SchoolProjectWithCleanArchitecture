@@ -61,9 +61,12 @@ Supports pagination, sorting, and searching with a consistent response shape.
 
 ✅ **ApiResponse & Wrapper Classes**  
 Standardizes all API responses with consistent structure:
-```json
+`json
 {
   "isSuccess": true,
   "message": "Operation successful",
   "data": { ... }
-}
+}`
+
+✅ **Email Sending via SMTP**  
+Implemented email sending using MailKit and CQRS (SendEmailCommand, Handler, Service).
