@@ -294,4 +294,16 @@
   <data name="MessegeRequired" xml:space="preserve">
     <value>يجب إدخال رسالة أو نص الايميل</value>
   </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>من فضلك قم بتأكيد الايميل الخاص بك</value>
+  </data>
+  <data name="TryToRegisterAgain" xml:space="preserve">
+    <value>حدث خطأ أثناء التسجيل قم بالمحاولة مرة أخري</value>
+  </data>
+  <data name="ConfirmEmailDone" xml:space="preserve">
+    <value>تم تأكيد الايميل الخاص بك</value>
+  </data>
+  <data name="ErrorWhenConfirmEmail" xml:space="preserve">
+    <value>حدث خطأ أثناء تأكيد الايميل الخاص بك</value>
+  </data>
 </root>
