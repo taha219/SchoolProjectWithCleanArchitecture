@@ -69,4 +69,5 @@ Standardizes all API responses with consistent structure:
 }`
 
 ✅ **Email Sending via SMTP**  
-Implemented email sending using MailKit and CQRS (SendEmailCommand, Handler, Service).
+- Implemented email sending using MailKit and CQRS (SendEmailCommand, Handler, Service).
+- Confirm  User Email when Regitering User
