@@ -46,12 +46,21 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
             if (!result.Succeeded)
             {
                 return new ApiResponse<JWTAuthResult>
                 {
                     IsSuccess = false,
                     Message = _stringLocalizer[SharedResourcesKeys.PasswordNotCorrect]
+                };
+            }
+            if (!user.EmailConfirmed)
+            {
+                return new ApiResponse<JWTAuthResult>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.EmailNotConfirmed]
                 };
             }
             return new ApiResponse<JWTAuthResult>

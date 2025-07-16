@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.AuthenticationUser.Commands.Models;
+using SchoolProject.Core.Feature.AuthenticationUser.Queries.Models;
 using SchoolProject.Core.Features.Authentication.Queries.Models;
 
 namespace SchoolProject.Api.Controllers
@@ -40,6 +41,14 @@ namespace SchoolProject.Api.Controllers
             if (!result.IsSuccess)
                 return Conflict(result);
 
+            return Ok(result);
+        }
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
+        {
+            var result = await _mediator.Send(query);
+            if (!result.IsSuccess)
+                return Conflict(result);
             return Ok(result);
         }
     }

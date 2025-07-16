@@ -8,6 +8,7 @@ using SchoolProject.Core.Feature.ApplicationUser.Command.Models;
 using SchoolProject.Core.Feature.ApplicationUser.Commands.Models;
 using SchoolProject.Core.Resources;
 using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 {
@@ -20,39 +21,29 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public AppUserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, UserManager<AppUser> userManager, IMapper mapper)
+        private readonly IAppUserService _appUserService;
+        public AppUserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, UserManager<AppUser> userManager, IMapper mapper, IAppUserService appUserService)
         {
             _stringLocalizer = stringLocalizer;
             _userManager = userManager;
             _mapper = mapper;
+            _appUserService = appUserService;
         }
         public async Task<ApiResponse<string>> Handle(AddAppUserCommand request, CancellationToken cancellationToken)
         {
-            var userbyName = await _userManager.FindByNameAsync(request.UserName);
-            if (userbyName != null)
-            {
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistUserNameFound] };
-            }
-            try
-            {
-                var userByMail = await _userManager.FindByEmailAsync(request.Email);
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponse<string>
-                {
-                    IsSuccess = false,
-                    Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound],
-                };
-            }
+
             var mappedUser = _mapper.Map<AppUser>(request);
-            IdentityResult isSuccess = await _userManager.CreateAsync(mappedUser, request.Password);
-            await _userManager.AddToRoleAsync(mappedUser, request.Role);
-            if (!isSuccess.Succeeded)
+            var createResult = await _appUserService.AddUserAsync(mappedUser, request.Password, request.Role);
+
+            switch (createResult)
             {
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
+                case "EmailExists": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound] };
+                case "UserNameExists": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistUserNameFound] };
+                case "CreateUserFailed": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
+                case "Failed": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.TryToRegisterAgain] };
+                case "Success": return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.AddUserSuccessfully] };
+                default: return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
             }
-            return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.AddUserSuccessfully] };
         }
         public async Task<ApiResponse<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {

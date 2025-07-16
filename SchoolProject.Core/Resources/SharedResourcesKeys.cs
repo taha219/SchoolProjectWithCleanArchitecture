@@ -54,6 +54,8 @@
         public const string NewPassNotEqualConfirmPass = "NewPassNotEqualConfirmPass";
         public const string OldPasswordIncorrect = "OldPasswordIncorrect";
         public const string PasswordNotCorrect = "PasswordNotCorrect";
+        public const string TryToRegisterAgain = "TryToRegisterAgain";
+
         #endregion
 
         #region Authenticaion
@@ -81,10 +83,13 @@
 
         #endregion
 
-        #region        
+        #region Mail       
         public const string SendEmailFailed = "SendEmailFailed";
         public const string EmailSent = "EmailSent";
         public const string MessegeRequired = "MessegeRequired";
+        public const string EmailNotConfirmed = "EmailNotConfirmed";
+        public const string ConfirmEmailDone = "ConfirmEmailDone";
+        public const string ErrorWhenConfirmEmail = "ErrorWhenConfirmEmail";
         #endregion
     }
 }
