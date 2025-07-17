@@ -54,12 +54,14 @@ namespace SchoolProject.Api.Controllers
                 return Conflict(result);
             return Ok(result);
         }
-        [HttpPut("ChangeUserPassword")]
-        public async Task<IActionResult> Changepassword([FromBody] ChangeUserPasswordCommand command)
+
+        [HttpPost("ConfirmResetPassword")]
+        public async Task<IActionResult> ConfirmResetPassword([FromBody] ConfirmResetPasswordCommand command)
         {
             var result = await _mediator.Send(command);
             if (!result.IsSuccess)
-                return Conflict(result);
+                return BadRequest(result);
+
             return Ok(result);
         }
     }

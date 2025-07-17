@@ -55,6 +55,8 @@
         public const string OldPasswordIncorrect = "OldPasswordIncorrect";
         public const string PasswordNotCorrect = "PasswordNotCorrect";
         public const string TryToRegisterAgain = "TryToRegisterAgain";
+        public const string InvalidCode = "InvalidCode";
+        public const string PasswordsDoNotMatch = "PasswordsDoNotMatch";
 
         #endregion
 
@@ -90,6 +92,7 @@
         public const string EmailNotConfirmed = "EmailNotConfirmed";
         public const string ConfirmEmailDone = "ConfirmEmailDone";
         public const string ErrorWhenConfirmEmail = "ErrorWhenConfirmEmail";
+        public const string OTPSentSuccess = "OTPSentSuccess";
         #endregion
     }
 }

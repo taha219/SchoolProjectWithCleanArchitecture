@@ -12,21 +12,28 @@ using SchoolProject.Services.Abstract;
 namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
 {
     public class AuthenticationUserHandler : IRequestHandler<SignInCommand, ApiResponse<JWTAuthResult>>,
-                                             IRequestHandler<RefreshTokenCommand, ApiResponse<JWTAuthResult>>
+                                             IRequestHandler<RefreshTokenCommand, ApiResponse<JWTAuthResult>>,
+                                             IRequestHandler<SendResetPasswordOtpCommand, ApiResponse<string>>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IAuthenticationUserService _authenticationUserService;
+        private readonly IEmailsService _emailsService;
+        private readonly IOTPService _otpService;
         public AuthenticationUserHandler(UserManager<AppUser> userManager,
                                          IStringLocalizer<SharedResources> stringLocalizer,
                                          SignInManager<AppUser> signInManager,
-                                         IAuthenticationUserService authenticationUserService)
+                                         IAuthenticationUserService authenticationUserService,
+                                         IEmailsService emailsService,
+                                         IOTPService otpService)
         {
             _userManager = userManager;
             _stringLocalizer = stringLocalizer;
             _signInManager = signInManager;
             _authenticationUserService = authenticationUserService;
+            _emailsService = emailsService;
+            _otpService = otpService;
         }
 
         public async Task<ApiResponse<JWTAuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -128,6 +135,35 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
                 Message = _stringLocalizer[SharedResourcesKeys.Success],
                 Data = result
             };
+        }
+        public async Task<ApiResponse<string>> Handle(SendResetPasswordOtpCommand request, CancellationToken cancellationToken)
+        {
+            var identifier = request.Identifier.Trim();
+
+            AppUser user = null;
+
+            if (identifier.Contains("@"))
+                user = await _userManager.FindByEmailAsync(identifier);
+            else
+                user = _userManager.Users.FirstOrDefault(u => u.PhoneNumber == identifier);
+
+            if (user == null)
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
+
+            var otpCode = new Random().Next(100000, 999999).ToString();
+
+            // Send OTP
+            if (identifier.Contains("@"))
+            {
+                var message = $"Your reset password code is: {otpCode}";
+                await _emailsService.SendEmail(user.Email, message, "Reset Password Code");
+            }
+            else
+            {
+                await _otpService.SendOtpAsync($"+2{user.PhoneNumber}");
+            }
+
+            return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.OTPSentSuccess] };
         }
     }
 }

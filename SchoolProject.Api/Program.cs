@@ -41,7 +41,6 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
-
 // Configure Identity
 // *Note=> add identity register usermanager + role_manager + signin_manager , but if you use identity core it will not include only signin_manager 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
@@ -83,6 +82,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // seeding roles and admin user if there is no roles or users in the database
 var app = builder.Build();
+
+
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
@@ -90,6 +91,7 @@ using (var scope = app.Services.CreateScope())
     await RoleSeeder.SeedAsync(roleManager);
     await UserSeeder.SeedAsync(userManager);
 }
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

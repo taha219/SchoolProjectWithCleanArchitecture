@@ -306,4 +306,13 @@
   <data name="ErrorWhenConfirmEmail" xml:space="preserve">
     <value>An error occured while confirming your Email</value>
   </data>
+  <data name="OTPSentSuccess" xml:space="preserve">
+    <value>A temporary password has been successfully sent to your mobile number.</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>Invalid code</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+  </data>
 </root>

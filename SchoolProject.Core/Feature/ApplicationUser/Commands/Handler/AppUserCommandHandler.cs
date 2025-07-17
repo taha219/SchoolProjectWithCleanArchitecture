@@ -15,19 +15,26 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
     public class AppUserCommandHandler : IRequestHandler<AddAppUserCommand, ApiResponse<string>>,
                                          IRequestHandler<EditUserCommand, ApiResponse<string>>,
                                          IRequestHandler<DeleteUserCommman, ApiResponse<string>>,
-                                         IRequestHandler<ChangeUserPasswordCommand, ApiResponse<string>>
+                                         IRequestHandler<ConfirmResetPasswordCommand, ApiResponse<string>>
     {
 
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IAppUserService _appUserService;
-        public AppUserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, UserManager<AppUser> userManager, IMapper mapper, IAppUserService appUserService)
+        private readonly IAppUserService _userService;
+        private readonly IOTPService _otpService;
+        public AppUserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer,
+                                     UserManager<AppUser> userManager,
+                                     IMapper mapper,
+                                     IAppUserService appUserService,
+                                     IOTPService otpService)
         {
             _stringLocalizer = stringLocalizer;
             _userManager = userManager;
             _mapper = mapper;
             _appUserService = appUserService;
+            _otpService = otpService;
         }
         public async Task<ApiResponse<string>> Handle(AddAppUserCommand request, CancellationToken cancellationToken)
         {
@@ -91,32 +98,41 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
             }
             return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.DeletedUser] };
         }
-        public async Task<ApiResponse<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+
+        public async Task<ApiResponse<string>> Handle(ConfirmResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(request.UserId);
-            if (user == null)
-            {
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
-            }
-            var isOldPasswordCorrect = await _userManager.CheckPasswordAsync(user, request.OldPassword);
-            if (!isOldPasswordCorrect)
-            {
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.OldPasswordIncorrect] };
-            }
             if (request.NewPassword != request.ConfirmPassword)
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.PasswordsDoNotMatch] };
+
+            var identifier = request.Identifier.Trim();
+            AppUser user = null;
+
+            if (identifier.Contains("@"))
+                user = await _userManager.FindByEmailAsync(identifier);
+            else
+                user = _userManager.Users.FirstOrDefault(u => u.PhoneNumber == identifier);
+
+            if (user == null)
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
+
+            // ✅ تحقق من OTP
+            if (!identifier.Contains("@"))
             {
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.NewPassNotEqualConfirmPass] };
+                var verified = await _otpService.VerifyOtpAsync(user.PhoneNumber, request.Code);
+                if (!verified)
+                    return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.InvalidCode] };
             }
-            var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.ConfirmPassword);
+
+            // Reset password
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+
             if (!result.Succeeded)
-            {
-                return new ApiResponse<string> { IsSuccess = false, Message = result.Errors.FirstOrDefault().Description };
-            }
-            return new ApiResponse<string>
-            {
-                IsSuccess = true,
-                Message = _stringLocalizer[SharedResourcesKeys.PasswordChangedSuccessfully]
-            };
+                return new ApiResponse<string> { IsSuccess = false, Message = result.Errors.FirstOrDefault()?.Description };
+
+            return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.PasswordChangedSuccessfully] };
         }
     }
 }
+
+

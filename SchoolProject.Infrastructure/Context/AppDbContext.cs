@@ -20,7 +20,7 @@ namespace SchoolProject.Infrastructure.Data
         public DbSet<Ins_Subject> InsSubjects { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
-
+        public DbSet<UserOTP> UserOtps { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -54,6 +54,11 @@ namespace SchoolProject.Infrastructure.Data
                 .HasOne(ins => ins.Subject)
                 .WithMany(s => s.Ins_Subjects)
                 .HasForeignKey(ins => ins.SubId);
+            modelBuilder.Entity<UserOTP>()
+                .HasOne(otp => otp.User)
+                .WithMany(user => user.Otps)
+                .HasForeignKey(otp => otp.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             #region seed data
             //// Departments

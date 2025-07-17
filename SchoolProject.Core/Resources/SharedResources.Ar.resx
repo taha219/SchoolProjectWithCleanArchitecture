@@ -306,4 +306,13 @@
   <data name="ErrorWhenConfirmEmail" xml:space="preserve">
     <value>حدث خطأ أثناء تأكيد الايميل الخاص بك</value>
   </data>
+  <data name="OTPSentSuccess" xml:space="preserve">
+    <value>تم إرسال كلمة مرور مؤقتة بنجاح  إلي رقم الموبايل الخاص بك</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>هذا الكود غير صحيح</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>كلمة المرور الجديدة وكلمة المرور التأكيدية غير متطابقتان</value>
+  </data>
 </root>

@@ -51,5 +51,14 @@ namespace SchoolProject.Api.Controllers
                 return Conflict(result);
             return Ok(result);
         }
+        [HttpPost("SendResetPasswordOtp")]
+        public async Task<IActionResult> SendResetPasswordOtp([FromBody] SendResetPasswordOtpCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
     }
 }
