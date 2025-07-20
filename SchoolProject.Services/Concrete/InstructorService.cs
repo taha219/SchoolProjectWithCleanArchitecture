@@ -2,7 +2,7 @@
 
 namespace SchoolProject.Services.Concrete
 {
-    public class InstructorService : IInstructorService
+    public class InstructorService : Abstract.IInstructorService
     {
     }
 }

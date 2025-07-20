@@ -101,34 +101,29 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
 
         public async Task<ApiResponse<string>> Handle(ConfirmResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            if (request.NewPassword != request.ConfirmPassword)
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.PasswordsDoNotMatch] };
-
-            var identifier = request.Identifier.Trim();
-            AppUser user = null;
-
-            if (identifier.Contains("@"))
-                user = await _userManager.FindByEmailAsync(identifier);
-            else
-                user = _userManager.Users.FirstOrDefault(u => u.PhoneNumber == identifier);
+            var user = await _userManager.Users
+             .Include(u => u.Otps)
+             .FirstOrDefaultAsync(u => u.Email == request.Identifier || u.PhoneNumber == request.Identifier);
 
             if (user == null)
                 return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
 
-            // ✅ تحقق من OTP
-            if (!identifier.Contains("@"))
-            {
-                var verified = await _otpService.VerifyOtpAsync(user.PhoneNumber, request.Code);
-                if (!verified)
-                    return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.InvalidCode] };
-            }
+            var lastUsedOtp = user.Otps
+                .Where(o => o.IsUsed)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefault();
 
-            // Reset password
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+            if (lastUsedOtp == null || lastUsedOtp.ExpiresAt < DateTime.Now)
+                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.OTPConfirmationRequired] };
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, request.NewPassword);
 
             if (!result.Succeeded)
-                return new ApiResponse<string> { IsSuccess = false, Message = result.Errors.FirstOrDefault()?.Description };
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return new ApiResponse<string> { IsSuccess = false, Message = errors };
+            }
 
             return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.PasswordChangedSuccessfully] };
         }

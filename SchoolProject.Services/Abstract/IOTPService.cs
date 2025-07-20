@@ -2,8 +2,7 @@
 {
     public interface IOTPService
     {
-        Task SendOtpAsync(string phoneNumber);
-        Task<bool> VerifyOtpAsync(string phoneNumber, string code);
+        public Task<bool> SendSmsAsync(string toPhoneNumber, string message);
+        public Task<string> SendOtpAsync(string input);
     }
-
 }

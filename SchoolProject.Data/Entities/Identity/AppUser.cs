@@ -11,6 +11,6 @@ namespace SchoolProject.Data.Entities.Identity
         }
         [InverseProperty(nameof(UserRefreshToken.user))]
         public virtual ICollection<UserRefreshToken> UserRefreshTokens { get; set; }
-        public virtual ICollection<UserOTP> Otps { get; set; }
+        public virtual ICollection<UserOTP> Otps { get; set; } = new List<UserOTP>();
     }
 }

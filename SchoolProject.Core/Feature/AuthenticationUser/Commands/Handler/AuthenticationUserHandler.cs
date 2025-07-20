@@ -1,19 +1,22 @@
 ﻿using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Feature.AuthenticationUser.Commands.Models;
 using SchoolProject.Core.Resources;
 using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Results;
+using SchoolProject.Infrastructure.Data;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
 {
     public class AuthenticationUserHandler : IRequestHandler<SignInCommand, ApiResponse<JWTAuthResult>>,
                                              IRequestHandler<RefreshTokenCommand, ApiResponse<JWTAuthResult>>,
-                                             IRequestHandler<SendResetPasswordOtpCommand, ApiResponse<string>>
+                                             IRequestHandler<SendResetPasswordOtpCommand, ApiResponse<string>>,
+                                             IRequestHandler<VerifyOTPCommand, ApiResponse<string>>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -21,12 +24,14 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
         private readonly IAuthenticationUserService _authenticationUserService;
         private readonly IEmailsService _emailsService;
         private readonly IOTPService _otpService;
+        private readonly AppDbContext _db;
         public AuthenticationUserHandler(UserManager<AppUser> userManager,
                                          IStringLocalizer<SharedResources> stringLocalizer,
                                          SignInManager<AppUser> signInManager,
                                          IAuthenticationUserService authenticationUserService,
                                          IEmailsService emailsService,
-                                         IOTPService otpService)
+                                         IOTPService otpService,
+                                         AppDbContext db)
         {
             _userManager = userManager;
             _stringLocalizer = stringLocalizer;
@@ -34,6 +39,7 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
             _authenticationUserService = authenticationUserService;
             _emailsService = emailsService;
             _otpService = otpService;
+            _db = db;
         }
 
         public async Task<ApiResponse<JWTAuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -138,32 +144,73 @@ namespace SchoolProject.Core.Feature.AuthenticationUser.Commands.Handler
         }
         public async Task<ApiResponse<string>> Handle(SendResetPasswordOtpCommand request, CancellationToken cancellationToken)
         {
-            var identifier = request.Identifier.Trim();
-
-            AppUser user = null;
-
-            if (identifier.Contains("@"))
-                user = await _userManager.FindByEmailAsync(identifier);
+            var result = await _otpService.SendOtpAsync(request.Identifier);
+            if (result == "UserNotFound")
+            {
+                return new ApiResponse<string>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.UserNotFound]
+                };
+            }
+            else if (result == "FailedSendSMS")
+            {
+                return new ApiResponse<string>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.FailedSendSMS],
+                    Data = result
+                };
+            }
             else
-                user = _userManager.Users.FirstOrDefault(u => u.PhoneNumber == identifier);
+            {
+                return new ApiResponse<string>
+                {
+                    IsSuccess = true,
+                    Message = _stringLocalizer[SharedResourcesKeys.CodeSentSuccessfully]
+                };
+            }
+        }
+
+        public async Task<ApiResponse<string>> Handle(VerifyOTPCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.Users
+                                         .Include(x => x.Otps)
+                                         .FirstOrDefaultAsync(x => x.PhoneNumber == request.Identifier || x.Email == request.Identifier);
 
             if (user == null)
-                return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserNotFound] };
-
-            var otpCode = new Random().Next(100000, 999999).ToString();
-
-            // Send OTP
-            if (identifier.Contains("@"))
             {
-                var message = $"Your reset password code is: {otpCode}";
-                await _emailsService.SendEmail(user.Email, message, "Reset Password Code");
-            }
-            else
-            {
-                await _otpService.SendOtpAsync($"+2{user.PhoneNumber}");
+                return new ApiResponse<string>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.UserNotFound]
+                };
             }
 
-            return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.OTPSentSuccess] };
+            var otp = user.Otps
+                .Where(o => o.Code == request.Code && o.ExpiresAt > DateTime.UtcNow && !o.IsUsed)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefault();
+
+            if (otp == null)
+            {
+                return new ApiResponse<string>
+                {
+                    IsSuccess = false,
+                    Message = _stringLocalizer[SharedResourcesKeys.InvalidOTPOrExpired]
+                };
+            }
+
+            otp.IsUsed = true;
+            await _db.SaveChangesAsync();
+
+            return new ApiResponse<string>
+            {
+                IsSuccess = true,
+                Message = _stringLocalizer[SharedResourcesKeys.OTPVerifiedSuccessfully],
+                Data = user.Id
+            };
         }
     }
 }
+

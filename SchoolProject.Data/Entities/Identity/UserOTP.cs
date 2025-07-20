@@ -15,6 +15,8 @@ namespace SchoolProject.Data.Entities
         [Required]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        public string Code { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime ExpiresAt { get; set; }

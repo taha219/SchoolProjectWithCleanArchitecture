@@ -315,4 +315,25 @@
   <data name="PasswordsDoNotMatch" xml:space="preserve">
     <value>The new password and confirmation password do not match.</value>
   </data>
+  <data name="FailedSendSMS" xml:space="preserve">
+    <value>An error occurred while sending a text message to your number.</value>
+  </data>
+  <data name="CodeSentSuccessfully" xml:space="preserve">
+    <value>Code Sent Successfully</value>
+  </data>
+  <data name="OTPVerifiedSuccessfully" xml:space="preserve">
+    <value>Code verified Successfully</value>
+  </data>
+  <data name="OTPExpired" xml:space="preserve">
+    <value>The temporary password has expired.</value>
+  </data>
+  <data name="InvalidOTP" xml:space="preserve">
+    <value>The temporary password is incorrect.</value>
+  </data>
+  <data name="FailedToverifyOTP" xml:space="preserve">
+    <value>An error occurred while verifying the passcode.</value>
+  </data>
+  <data name="OTPConfirmationRequired" xml:space="preserve">
+    <value>Passcode must be verified</value>
+  </data>
 </root>

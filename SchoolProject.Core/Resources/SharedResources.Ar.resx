@@ -315,4 +315,25 @@
   <data name="PasswordsDoNotMatch" xml:space="preserve">
     <value>كلمة المرور الجديدة وكلمة المرور التأكيدية غير متطابقتان</value>
   </data>
+  <data name="FailedSendSMS" xml:space="preserve">
+    <value>حدث خطأ أثناء إرسال رسالة نصية إلي الرقم الخاص بك</value>
+  </data>
+  <data name="CodeSentSuccessfully" xml:space="preserve">
+    <value>تم إرسال الكود بنجاح</value>
+  </data>
+  <data name="OTPVerifiedSuccessfully" xml:space="preserve">
+    <value>تم التحقق من الكود بنجاح</value>
+  </data>
+  <data name="OTPExpired" xml:space="preserve">
+    <value>تم انتهاء مدة كلمة المرور المؤقتة</value>
+  </data>
+  <data name="InvalidOTP" xml:space="preserve">
+    <value>كلمة المرور المؤقتة غير صحيحة</value>
+  </data>
+  <data name="FailedToverifyOTP" xml:space="preserve">
+    <value>حدث خطأ أثناء التحقق من كود المرور</value>
+  </data>
+  <data name="OTPConfirmationRequired" xml:space="preserve">
+    <value>لابد من التحقق من رمز المرور</value>
+  </data>
 </root>

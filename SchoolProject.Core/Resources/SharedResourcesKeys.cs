@@ -67,6 +67,13 @@
         public const string TokenIsNotExpired = "TokenIsNotExpired";
         public const string AlgorithmIsWrong = "AlgorithmIsWrong";
         public const string TokenIsExpired = "TokenIsExpired";
+        public const string FailedSendSMS = "FailedSendSMS";
+        public const string CodeSentSuccessfully = "CodeSentSuccessfully";
+        public const string OTPVerifiedSuccessfully = "OTPVerifiedSuccessfully";
+        public const string InvalidOTPOrExpired = "InvalidOTPOrExpired";
+        public const string FailedToVerifyOTP = "FailedToVerifyOTP";
+        public const string OTPConfirmationRequired = "OTPConfirmationRequired";
+
         #endregion
 
         #region Role
