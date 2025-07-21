@@ -71,3 +71,9 @@ Standardizes all API responses with consistent structure:
 ✅ **Email Sending via SMTP**  
 - Implemented email sending using MailKit and CQRS (SendEmailCommand, Handler, Service).
 - Confirm  User Email when Regitering User
+  
+✅ **Password Reset with OTP (One-Time Password)**
+- Secure password reset mechanism using OTP verification via Email or SMS:
+- OTP is generated and stored securely with expiration and usage tracking.
+- OTP is sent to the user’s email or mobile number via configured providers.
+- Users confirm their identity by submitting the OTP before resetting the password.
