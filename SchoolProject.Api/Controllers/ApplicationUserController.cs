@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Feature.ApplicationUser.Command.Models;
 using SchoolProject.Core.Feature.ApplicationUser.Commands.Models;
@@ -15,7 +16,6 @@ namespace SchoolProject.Api.Controllers
         {
             _mediator = mediator;
         }
-
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] AddAppUserCommand user)
         {
@@ -23,7 +23,6 @@ namespace SchoolProject.Api.Controllers
 
             if (!result.IsSuccess)
                 return Conflict(result);
-
             return Ok(result);
         }
         [HttpGet("UsersPaginatedList")]

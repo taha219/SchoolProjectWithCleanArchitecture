@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Globalization;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -13,6 +14,7 @@ using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Infrastructure.Seeder;
 using SchoolProject.Services;
+using SchoolProject.Services.Abstract;
 using TestRESTAPI.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,17 +44,26 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
 // Configure Identity
-// *Note=> add identity register usermanager + role_manager + signin_manager , but if you use identity core it will not include only signin_manager 
+// *Note=> AddIdentity register usermanager + role_manager + signin_manager , but if you use  AddIdentityCore it will not include only signin_manager 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+////////////////////////////////////////////////////////////////////////
 // notice that you must add these two lines after configuring identity
 builder.Services.AddSwaggerGenJwtAuth();
 builder.Services.AddCustomJwtAuth(builder.Configuration);
-/////////////////////////////////////////////////////////
-builder.Services.AddSingleton<ConcurrentDictionary<string, RefreshToken>>();
+//////////////////////////////////////////////////////////////////////
 
+builder.Services.AddSingleton<ConcurrentDictionary<string, RefreshToken>>();
+///////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Hangfire configuration service
+builder.Services.AddHangfire(config => config.UseSqlServerStorage(builder.Configuration.GetConnectionString("mycon")));
+builder.Services.AddHangfireServer();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()
                 .AddServicesDependencies()
@@ -105,6 +116,19 @@ app.UseRequestLocalization(options.Value);
 #endregion
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseHangfireDashboard("/Dashboard"); // optional: you can protect it with roles
+
+RecurringJob.AddOrUpdate<IScheduledJobService>(
+    "DeleteExpiredOtpsJob",
+    job => job.DeleteExpiredOtpsAsync(),
+    "0 12 * * 6" // saturday (6)  12:00
+);
+RecurringJob.AddOrUpdate<IScheduledJobService>(
+    "NotifyInactiveUsersJob",
+    job => job.NotifyInactiveUsersAsync(),
+    "0 16 */3 * *" // every 3 days 4:00 pm
+);
 
 app.UseHttpsRedirection();
 

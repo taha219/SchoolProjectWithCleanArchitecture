@@ -1,5 +1,8 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
+using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Services.Abstract;
 
 namespace SchoolProject.Services.Concrete
@@ -7,7 +10,25 @@ namespace SchoolProject.Services.Concrete
     public class EmailsService : IEmailsService
     {
 
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _configuration;
+        public EmailsService(UserManager<AppUser> userManager,
+                              IConfiguration configuration)
+        {
+            _userManager = userManager;
+            _configuration = configuration;
+        }
         #region Handle Functions
+        public async void SendConfirmEmail(AppUser user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var confirmationUrl = $"{_configuration["AppUrl"]}/Api/Authentication/ConfirmEmail?userId={user.Id}&code={Uri.EscapeDataString(code)}";
+
+            var message = $"To Confirm Email Click Link: <a href='{confirmationUrl}'>Link Of Confirmation</a>";
+
+            await SendEmail(user.Email, message, "Confirm Email");
+        }
         public async Task<string> SendEmail(string email, string Message, string? reason)
         {
             try
@@ -40,6 +61,7 @@ namespace SchoolProject.Services.Concrete
                 return "Failed";
             }
         }
+
         #endregion
     }
 }

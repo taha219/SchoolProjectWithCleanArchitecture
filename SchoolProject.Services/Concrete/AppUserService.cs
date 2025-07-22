@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Services.Abstract;
@@ -13,29 +10,25 @@ namespace SchoolProject.Services.Concrete
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailsService _emailsService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppDbContext _appDBContext;
-        private readonly IUrlHelperFactory _urlHelperFactory;
+        private readonly IConfiguration _configuration;
         public AppUserService(UserManager<AppUser> userManager,
                               IEmailsService emailsService,
-                              IHttpContextAccessor httpContextAccessor,
                               AppDbContext appDBContext,
-                              IUrlHelperFactory urlHelperFactory)
+                              IConfiguration configuration)
         {
             _userManager = userManager;
             _emailsService = emailsService;
-            _httpContextAccessor = httpContextAccessor;
             _appDBContext = appDBContext;
-            _urlHelperFactory = urlHelperFactory;
-
+            _configuration = configuration;
         }
-        public async Task<string> AddUserAsync(AppUser user, string password, string role)
+        public async Task<(string Result, AppUser? CreatedUser)> AddUserAsync(AppUser user, string password, string role)
         {
             var trans = await _appDBContext.Database.BeginTransactionAsync();
             try
             {
                 var userByName = await _userManager.FindByNameAsync(user.UserName);
-                if (userByName != null) return "UserNameExists";
+                if (userByName != null) return ("UserNameExists", null);
 
                 try
                 {
@@ -44,52 +37,26 @@ namespace SchoolProject.Services.Concrete
                 }
                 catch (Exception ex)
                 {
-                    return "EmailExists";
+                    return ("EmailExists", null);
                 }
-                var createResult = _userManager.CreateAsync(user, password);
-                if (!createResult.Result.Succeeded)
+                var createResult = await _userManager.CreateAsync(user, password);
+                if (!createResult.Succeeded)
                 {
-                    return "CreateUserFailed";
+                    return ("CreateUserFailed", null);
                 }
                 await _userManager.AddToRoleAsync(user, role);
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                var httpContext = _httpContextAccessor.HttpContext;
-
-                if (httpContext == null)
-                    throw new InvalidOperationException("HttpContext is null. Cannot generate URL.");
-
-                var actionContext = new ActionContext
-                {
-                    HttpContext = httpContext,
-                    RouteData = httpContext.GetRouteData(), // مهم جدًا
-                    ActionDescriptor = new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor() // Placeholder لو مش بتستخدم MVC Actions
-                };
-
-                var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
-
-                var request = httpContext.Request;
-                var returnUrl = $"{request.Scheme}://{request.Host}" +
-                                urlHelper.Action("ConfirmEmail", "Authentication", new { userId = user.Id, code });
-
-                var message = $"To Confirm Email Click Link: <a href='{returnUrl}'>Link Of Confirmation</a>";
-
-
-                //$"/Api/V1/Authentication/ConfirmEmail?userId={user.Id}&code={code}";
-                //message or body
-                await _emailsService.SendEmail(user.Email, message, "ConFirm Email");
 
                 await trans.CommitAsync();
-                return "Success";
+                return ("Success", user);
             }
             catch (Exception ex)
             {
                 await trans.RollbackAsync();
-                return "Failed";
+                return ("Failed", null);
             }
-
-
         }
+
+
     }
 }

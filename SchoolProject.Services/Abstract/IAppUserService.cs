@@ -4,6 +4,6 @@ namespace SchoolProject.Services.Abstract
 {
     public interface IAppUserService
     {
-        public Task<string> AddUserAsync(AppUser user, string password, string role);
+        public Task<(string Result, AppUser? CreatedUser)> AddUserAsync(AppUser user, string password, string role);
     }
 }

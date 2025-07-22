@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,31 +25,40 @@ namespace SchoolProject.Core.Feature.ApplicationUser.Command.Handler
         private readonly IAppUserService _appUserService;
         private readonly IAppUserService _userService;
         private readonly IOTPService _otpService;
+        private readonly IEmailsService _emailsService;
         public AppUserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer,
                                      UserManager<AppUser> userManager,
                                      IMapper mapper,
                                      IAppUserService appUserService,
-                                     IOTPService otpService)
+                                     IOTPService otpService,
+                                     IEmailsService emailsService)
         {
             _stringLocalizer = stringLocalizer;
             _userManager = userManager;
             _mapper = mapper;
             _appUserService = appUserService;
             _otpService = otpService;
+            _emailsService = emailsService;
         }
         public async Task<ApiResponse<string>> Handle(AddAppUserCommand request, CancellationToken cancellationToken)
         {
 
             var mappedUser = _mapper.Map<AppUser>(request);
-            var createResult = await _appUserService.AddUserAsync(mappedUser, request.Password, request.Role);
+            var (result, createdUser) = await _appUserService.AddUserAsync(mappedUser, request.Password, request.Role);
 
-            switch (createResult)
+            switch (result)
             {
                 case "EmailExists": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistEmailFound] };
                 case "UserNameExists": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.UserWithExistUserNameFound] };
                 case "CreateUserFailed": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
                 case "Failed": return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.TryToRegisterAgain] };
-                case "Success": return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.AddUserSuccessfully] };
+                case "Success":
+                    if (createdUser is not null)
+                    {
+                        BackgroundJob.Enqueue(() => _emailsService.SendEmail(createdUser.Email, "Welcome To Our System , Thanks For Registering", "Welcoming"));
+                        BackgroundJob.Schedule<IEmailsService>(x => x.SendConfirmEmail(createdUser), TimeSpan.FromMinutes(2));
+                    }
+                    return new ApiResponse<string> { IsSuccess = true, Message = _stringLocalizer[SharedResourcesKeys.AddUserSuccessfully] };
                 default: return new ApiResponse<string> { IsSuccess = false, Message = _stringLocalizer[SharedResourcesKeys.AddUserFailed] };
             }
         }

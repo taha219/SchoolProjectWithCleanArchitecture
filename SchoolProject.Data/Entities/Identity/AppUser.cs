@@ -9,6 +9,8 @@ namespace SchoolProject.Data.Entities.Identity
         {
             UserRefreshTokens = new HashSet<UserRefreshToken>();
         }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
         [InverseProperty(nameof(UserRefreshToken.user))]
         public virtual ICollection<UserRefreshToken> UserRefreshTokens { get; set; }
         public virtual ICollection<UserOTP> Otps { get; set; } = new List<UserOTP>();
