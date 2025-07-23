@@ -11,6 +11,7 @@ namespace SchoolProject.Services.Concrete
 {
     public class StudentService : IStudentService
     {
+
         private readonly IStudentReposatory _studentReposatory;
         private readonly IDepartmentReposatory _departmentReposatory;
         public StudentService(IStudentReposatory studentReposatory, IDepartmentReposatory departmentReposatory)

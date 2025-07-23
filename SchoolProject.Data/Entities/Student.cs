@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolProject.Data.Common;
+using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Data.Entities
@@ -29,6 +30,11 @@ namespace SchoolProject.Data.Entities
         public virtual Department? Department { get; set; }
         [InverseProperty("Student")]
         public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
+
+        [ForeignKey("AppUser")]
+        public string? UserId { get; set; }
+
+        public virtual AppUser? AppUser { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime? DateDeleted { get; set; }

@@ -4,6 +4,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SchoolProject.Core;
@@ -15,6 +16,7 @@ using SchoolProject.Infrastructure.Data;
 using SchoolProject.Infrastructure.Seeder;
 using SchoolProject.Services;
 using SchoolProject.Services.Abstract;
+using SchoolProject.Services.Hubs;
 using TestRESTAPI.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +59,7 @@ builder.Services.AddCustomJwtAuth(builder.Configuration);
 
 builder.Services.AddSingleton<ConcurrentDictionary<string, RefreshToken>>();
 ///////////////////////////////////////////////////////////////////////////
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +67,20 @@ builder.Services.AddSingleton<ConcurrentDictionary<string, RefreshToken>>();
 builder.Services.AddHangfire(config => config.UseSqlServerStorage(builder.Configuration.GetConnectionString("mycon")));
 builder.Services.AddHangfireServer();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:5500")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // SignalR needs this
+    });
+});
+
 #region Dependency Injection
 builder.Services.AddInfrastructureDependencies()
                 .AddServicesDependencies()
@@ -115,6 +132,8 @@ var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(options.Value);
 #endregion
 
+app.UseCors();
+
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHangfireDashboard("/Dashboard"); // optional: you can protect it with roles
@@ -136,5 +155,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

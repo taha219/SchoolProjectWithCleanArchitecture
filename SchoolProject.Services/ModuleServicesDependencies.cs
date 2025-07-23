@@ -19,6 +19,9 @@ namespace SchoolProject.Services
             services.AddTransient<IAppUserService, AppUserService>();
             services.AddTransient<IOTPService, OTPService>();
             services.AddTransient<IScheduledJobService, ScheduledJobService>();
+            services.AddTransient<IStudentSubjectService, StudentSubjectService>();
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<ISignalRService, SignalRService>();
             return services;
         }
     }

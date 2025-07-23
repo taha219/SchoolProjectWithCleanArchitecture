@@ -20,12 +20,14 @@
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.20" />
     <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
     <PackageReference Include="Vonage" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Feature\Department\Commands\" />
     <Folder Include="Feature\Email\Queries\" />
+    <Folder Include="Feature\StudentsSubjects\Queries\" />
   </ItemGroup>
 
 </Project>

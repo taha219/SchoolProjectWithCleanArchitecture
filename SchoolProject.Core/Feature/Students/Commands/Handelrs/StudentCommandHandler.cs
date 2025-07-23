@@ -120,7 +120,6 @@ public class StudentCommandHandler : IRequestHandler<AddStudentCommand, ApiRespo
             return new ApiResponse<string>
             {
                 IsSuccess = false,
-
                 Message = ex.Message,
                 StatusCode = HttpStatusCode.NotFound
             };
