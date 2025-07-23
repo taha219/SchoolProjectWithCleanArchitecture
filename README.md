@@ -1,9 +1,6 @@
 # 🎓 SchoolProject API
-
 An enterprise-grade ASP.NET Core Web API built with Clean Architecture, featuring CQRS, Identity, JWT, Localization, and more.
-
 ---
-
 ## ✅ Key Features
 
 ✅ **Clean Architecture**  
@@ -84,3 +81,9 @@ Standardizes all API responses with consistent structure:
  - Add Recurring Job delete expired otp every week
  - Add Recurring Job send confirm link to Email to all users who did not confirm Email every 3 days
 
+✅ **SignalR Notifications**
+- Real-time notifications using SignalR to inform students when a grade is added or updated.
+- Used custom IUserIdProvider to extract UserId from JWT claims
+- Targeted specific users via Clients.User(userId).SendAsync(...)
+- Frontend connects to /notificationHub using JWT token
+- Triggered automatically after adding or updating student grade
