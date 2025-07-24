@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+</head>
+<body>
+    <h2>📢 إشعارات:</h2>
+    <ul id="notifications"></ul>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7052/notificationHub?access_token="ADD_Token_Here")
+            .build();
+
+        connection.on("ReceiveNotification", message => {
+            const li = document.createElement("li");
+            li.textContent = message;
+            document.getElementById("notifications").appendChild(li);
+        });
+
+        connection.start().catch(err => console.error(err));
+    </script>
+</body>
+</html>
